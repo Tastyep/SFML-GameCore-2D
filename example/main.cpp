@@ -5,10 +5,7 @@
 #include <vector>
 
 #include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/Graphics/VertexArray.hpp>
 #include <SFML/Window/Event.hpp>
-
-using namespace std::literals::chrono_literals;
 
 class Window {
  public:
