@@ -16,12 +16,18 @@ using namespace std::literals::chrono_literals;
 
 namespace GameCore {
 
+Core::Core()
+  : _tileManager(std::make_shared<Ressource::TileManager>()) {}
+
 void Core::run() {
   this->createWindow();
   this->registerParserModules();
+  this->parseConfigFile("./Game.cfg");
+  if (!this->loadRessources()) {
+    return;
+  }
 
-  _configParser.parse("./Game.cfg");
-  this->initInputModule();
+  _inputManager.dispatcher()->registerHandler(Action::ESCAPE, std::make_shared<ShutdownModule>(this));
 
   this->runGameLoop();
 }
@@ -64,8 +70,10 @@ void Core::createWindow() {
   _window.setFramerateLimit(60);
 }
 
-void Core::initInputModule() {
+void Core::parseConfigFile(const std::string& file) {
   using Key = sf::Keyboard::Key;
+  _configParser.parse(file);
+
   auto bindModule = std::static_pointer_cast<ConfigParser::BindModule<Key, Action>>(_configParser.module("bind"));
   auto bindMapping = bindModule->mapping();
 
@@ -73,8 +81,15 @@ void Core::initInputModule() {
   for (const auto& mapping : bindMapping) {
     _inputManager.bind(mapping.first, mapping.second);
   }
+}
 
-  _inputManager.dispatcher()->registerHandler(Action::ESCAPE, std::make_shared<ShutdownModule>(this));
+bool Core::loadRessources() {
+  if (!_textureManager.load("mainAsset", kAssetDir + "asset.png")) {
+    return false;
+  }
+  const auto& mainTexture = _textureManager.get("mainAsset");
+  _tileManager->parse(mainTexture, 32);
+  return true;
 }
 
 void Core::registerParserModules() {
