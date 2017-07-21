@@ -3,12 +3,14 @@
 #include <chrono>
 #include <cstddef>
 #include <memory>
+#include <utility>
 
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
 
-#include "Actions.hpp"
 #include "configParser/BindModule.hpp"
+
+#include "input/Manager.hpp"
 
 using namespace std::literals::chrono_literals;
 
@@ -17,6 +19,9 @@ namespace GameCore {
 void Core::run() {
   this->createWindow();
   this->registerParserModules();
+
+  _configParser.parse("./Game.cfg");
+  this->initInputModule();
 
   this->runGameLoop();
 }
@@ -27,7 +32,6 @@ void Core::runGameLoop() {
   const auto skipTicks = 1000ms / ticksPerSecond;
 
   sf::Event event;
-  int loopCount;
   auto nextGameTick = std::chrono::steady_clock::now();
   while (_window.isOpen()) {
     while (_window.pollEvent(event)) {
@@ -36,13 +40,15 @@ void Core::runGameLoop() {
       }
     }
 
-    loopCount = 0;
     for (size_t loopCount = 0; std::chrono::steady_clock::now() > nextGameTick && loopCount < maxFrameSkip;
          ++loopCount) {
       // this->updatePhysic();
       nextGameTick += skipTicks;
       ++loopCount;
     }
+
+    // Checks the key pressed and dispatches the associated actions.
+    _inputManager.run();
 
     _window.clear();
     _window.display();
@@ -58,13 +64,26 @@ void Core::createWindow() {
   _window.setFramerateLimit(60);
 }
 
+void Core::initInputModule() {
+  using Key = sf::Keyboard::Key;
+  auto bindModule = std::static_pointer_cast<ConfigParser::BindModule<Key, Action>>(_configParser.module("bind"));
+  auto bindMapping = bindModule->mapping();
+
+  // Bind keys on actions.
+  for (const auto& mapping : bindMapping) {
+    _inputManager.bind(mapping.first, mapping.second);
+  }
+
+  _inputManager.dispatcher()->registerHandler(Action::ESCAPE, std::make_shared<ShutdownModule>(this));
+}
+
 void Core::registerParserModules() {
   using Key = sf::Keyboard::Key;
   auto bindModule = std::make_shared<ConfigParser::BindModule<Key, Action>>();
 
   bindModule->configureActions({
     { "Escape", Action::ESCAPE },
-    { "Action", Action::LEFT },
+    { "Use", Action::USE },
     { "MoveUp", Action::UP },
     { "MoveDown", Action::DOWN },
     { "MoveLeft", Action::LEFT },
@@ -127,6 +146,7 @@ void Core::registerParserModules() {
     { "F14", Key::F14 },
     { "F15", Key::F15 },
     //
+    { "ESCAPE", Key::Escape },
     { "L_CTRL", Key::LControl },
     { "L_SHIFT", Key::LShift },
     { "L_ALT", Key::LAlt },
@@ -143,7 +163,7 @@ void Core::registerParserModules() {
     { "PERIOD", Key::Period },
     { "SLASH", Key::Slash },
     { "BACKSLASH", Key::BackSlash },
-    { "Tilde", Key::Tilde },
+    { "TILDE", Key::Tilde },
     { "EQUAL", Key::Equal },
     { "DASH", Key::Dash },
     { "SPACE", Key::Space },

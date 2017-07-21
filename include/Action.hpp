@@ -7,7 +7,7 @@ namespace GameCore {
 
 enum class Action {
   ESCAPE,
-  ACTION,
+  USE,
   LEFT,
   RIGHT,
   UP,
