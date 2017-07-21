@@ -1,16 +1,61 @@
 #include "Core.hpp"
 
+#include <chrono>
+#include <cstddef>
 #include <memory>
 
+#include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
 
 #include "Actions.hpp"
 #include "configParser/BindModule.hpp"
 
+using namespace std::literals::chrono_literals;
+
 namespace GameCore {
 
 void Core::run() {
+  this->createWindow();
   this->registerParserModules();
+
+  this->runGameLoop();
+}
+
+void Core::runGameLoop() {
+  const size_t ticksPerSecond = 30;
+  const size_t maxFrameSkip = 5;
+  const auto skipTicks = 1000ms / ticksPerSecond;
+
+  sf::Event event;
+  int loopCount;
+  auto nextGameTick = std::chrono::steady_clock::now();
+  while (_window.isOpen()) {
+    while (_window.pollEvent(event)) {
+      if (event.type == sf::Event::Closed) {
+        this->shutdown();
+      }
+    }
+
+    loopCount = 0;
+    for (size_t loopCount = 0; std::chrono::steady_clock::now() > nextGameTick && loopCount < maxFrameSkip;
+         ++loopCount) {
+      // this->updatePhysic();
+      nextGameTick += skipTicks;
+      ++loopCount;
+    }
+
+    _window.clear();
+    _window.display();
+  }
+}
+
+void Core::shutdown() {
+  _window.close();
+}
+
+void Core::createWindow() {
+  _window.create(sf::VideoMode(1000, 1000), "GameCore");
+  _window.setFramerateLimit(60);
 }
 
 void Core::registerParserModules() {

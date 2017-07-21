@@ -12,10 +12,14 @@ class Core {
   void run();
 
  private:
+  void createWindow();
   void registerParserModules();
+  void runGameLoop();
+  void shutdown();
 
  private:
   ConfigParser::Parser _configParser;
+  sf::RenderWindow _window;
 };
 
 } /* namespace GameCore */

@@ -1,44 +1,8 @@
-#include <chrono>
-#include <cmath>
-#include <tuple>
-#include <utility>
-#include <vector>
-
-#include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/Window/Event.hpp>
-
-class Window {
- public:
-  Window()
-    : _window(sf::VideoMode(1000, 1000), "GameCore") {
-    _window.setFramerateLimit(30);
-  }
-
-  void run() {
-    sf::Event event;
-
-    while (_window.isOpen()) {
-      while (_window.pollEvent(event)) {
-        if (event.type == sf::Event::Closed) {
-          this->close();
-        }
-      }
-
-      _window.display();
-    }
-  }
-
-  void close() {
-    _window.close();
-  }
-
- private:
-  sf::RenderWindow _window;
-};
+#include "Core.hpp"
 
 int main() {
-  Window window;
+  GameCore::Core game;
 
-  window.run();
+  game.run();
   return 0;
 }
