@@ -24,9 +24,5 @@ const std::vector<sf::Sprite>& TileManager::tiles() const {
   return _tiles;
 }
 
-const sf::Sprite& TileManager::tile(size_t index) const {
-  return _tiles.at(index);
-}
-
 } /* namespace Ressource */
 } /* namespace GameCore */

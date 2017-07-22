@@ -9,15 +9,16 @@
 #include <SFML/Window/Keyboard.hpp>
 
 #include "configParser/BindModule.hpp"
-
 #include "input/Manager.hpp"
+#include "util/EnumCast.hpp"
 
 using namespace std::literals::chrono_literals;
 
 namespace GameCore {
 
 Core::Core()
-  : _tileManager(std::make_shared<Ressource::TileManager>()) {}
+  : _tileManager(std::make_shared<Ressource::TileManager>())
+  , _hitboxManager(std::make_shared<Hitbox::Manager<Tile>>()) {}
 
 void Core::run() {
   this->createWindow();
@@ -89,6 +90,10 @@ bool Core::loadRessources() {
   }
   const auto& mainTexture = _textureManager.get("mainAsset");
   _tileManager->parse(mainTexture, 32);
+
+  for (auto id = enum_cast(Tile::PLAYER); id <= enum_cast(Tile::FLOOR); ++id) {
+    _hitboxManager->load(static_cast<Tile>(id), _tileManager->tile(static_cast<Tile>(id)), 80);
+  }
   return true;
 }
 
