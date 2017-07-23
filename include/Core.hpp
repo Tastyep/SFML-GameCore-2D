@@ -1,5 +1,5 @@
-#ifndef GAME_CORE_HPP
-#define GAME_CORE_HPP
+#ifndef GAME_CORE_CORE_HPP
+#define GAME_CORE_CORE_HPP
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Texture.hpp>
@@ -12,6 +12,7 @@
 #include "input/Manager.hpp"
 #include "ressource/Manager.hpp"
 #include "ressource/TileManager.hpp"
+#include "world/Core.hpp"
 
 namespace GameCore {
 
@@ -52,6 +53,7 @@ class Core {
   Ressource::Manager<sf::Texture> _textureManager;
   std::shared_ptr<Ressource::TileManager> _tileManager;
   std::shared_ptr<Hitbox::Manager<Tile>> _hitboxManager;
+  std::unique_ptr<World::Core> _world;
 
   sf::RenderWindow _window;
 };

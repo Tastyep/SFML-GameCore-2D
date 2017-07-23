@@ -11,6 +11,7 @@
 #include "configParser/BindModule.hpp"
 #include "input/Manager.hpp"
 #include "util/EnumCast.hpp"
+#include "world/entity/Factory.hpp"
 
 using namespace std::literals::chrono_literals;
 
@@ -18,7 +19,12 @@ namespace GameCore {
 
 Core::Core()
   : _tileManager(std::make_shared<Ressource::TileManager>())
-  , _hitboxManager(std::make_shared<Hitbox::Manager<Tile>>()) {}
+  , _hitboxManager(std::make_shared<Hitbox::Manager<Tile>>()) {
+  auto entityFactory =
+    std::make_unique<World::Entity::Factory>(_tileManager, _hitboxManager, _inputManager.dispatcher());
+
+  _world = std::make_unique<World::Core>(std::move(entityFactory));
+}
 
 void Core::run() {
   this->createWindow();
