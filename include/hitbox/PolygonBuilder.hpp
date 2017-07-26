@@ -20,7 +20,7 @@ class PolygonBuilder {
   const size_t kivMaxAngle = 30;
 
  public:
-  std::vector<sf::Vector2i> make(const std::vector<sf::Vector2i>& contour, size_t accuracy) const;
+  std::vector<sf::Vector2f> make(const std::vector<sf::Vector2i>& contour, size_t accuracy) const;
 
  private:
   size_t pickIntersection(const std::vector<sf::Vector2i>& contour, size_t i) const;

@@ -14,13 +14,13 @@ namespace Hitbox {
 
 class PolygonPartitioner {
  private:
-  using Triangle = std::vector<sf::Vector2i>;
-  using Polygon = std::vector<sf::Vector2i>;
+  using Triangle = std::vector<sf::Vector2f>;
+  using Polygon = std::vector<sf::Vector2f>;
 
  public:
   PolygonPartitioner() = default;
 
-  std::vector<std::vector<sf::Vector2i>> make(std::vector<sf::Vector2i> polygon) const;
+  std::vector<std::vector<sf::Vector2f>> make(std::vector<sf::Vector2f> polygon) const;
 
  private:
   std::vector<Polygon> make(std::vector<Triangle> triangles) const;

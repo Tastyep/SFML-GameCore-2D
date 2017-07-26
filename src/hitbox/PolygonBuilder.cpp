@@ -8,8 +8,8 @@
 namespace GameCore {
 namespace Hitbox {
 
-std::vector<sf::Vector2i> PolygonBuilder::make(const std::vector<sf::Vector2i>& contour, size_t accuracy) const {
-  std::vector<sf::Vector2i> polygon;
+std::vector<sf::Vector2f> PolygonBuilder::make(const std::vector<sf::Vector2i>& contour, size_t accuracy) const {
+  std::vector<sf::Vector2f> polygon;
   sf::Vector2f lvBaseDirection;
   sf::Vector2f svPrevDirection;
   auto first = contour.begin();
@@ -21,7 +21,7 @@ std::vector<sf::Vector2i> PolygonBuilder::make(const std::vector<sf::Vector2i>& 
   const size_t lvMaxLength = klvMinLength + (klvMaxLength - klvMinLength) * accRatio;
   const size_t lvMaxAngle = klvMinAngle + (klvMaxAngle - klvMinAngle) * accRatio;
 
-  polygon.push_back(*first);
+  polygon.push_back(static_cast<sf::Vector2f>(*first));
   for (size_t i = ksvLength; i < contour.size(); ++i) {
     const auto& p = contour[i];
     sf::Vector2f lvDirection = static_cast<sf::Vector2f>(p - *first);
@@ -57,7 +57,7 @@ std::vector<sf::Vector2i> PolygonBuilder::make(const std::vector<sf::Vector2i>& 
     }
     if (interPoint != 0) {
       first = std::next(contour.begin(), interPoint);
-      polygon.push_back(contour[interPoint]);
+      polygon.push_back(static_cast<sf::Vector2f>(contour[interPoint]));
       interPoint = 0;
     } else if (lvLength < lvMaxLength) { // If no inter, make the base vector grow.
       ++lvLength;

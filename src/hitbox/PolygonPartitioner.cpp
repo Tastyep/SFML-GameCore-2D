@@ -5,7 +5,7 @@
 namespace GameCore {
 namespace Hitbox {
 
-std::vector<std::vector<sf::Vector2i>> PolygonPartitioner::make(std::vector<sf::Vector2i> polygon) const {
+std::vector<std::vector<sf::Vector2f>> PolygonPartitioner::make(std::vector<sf::Vector2f> polygon) const {
   if (this->isPolygonConvex(polygon)) {
     return { polygon };
   }

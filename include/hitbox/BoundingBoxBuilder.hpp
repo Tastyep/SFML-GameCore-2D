@@ -11,7 +11,7 @@ namespace Hitbox {
 
 class BoundingBoxBuilder {
  public:
-  sf::IntRect make(const std::vector<sf::Vector2i>& polygon) const;
+  sf::FloatRect make(const std::vector<sf::Vector2f>& polygon) const;
 };
 
 } /* namespace Hitbox */
