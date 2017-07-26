@@ -4,22 +4,24 @@ namespace GameCore {
 namespace World {
 namespace Physic {
 
-CollisionBody::CollisionBody(const sf::Rect<int>& bbox, const std::vector<std::vector<sf::Vector2i>>& polygons) {
-  for (size_t i = 0; i < polygons.size(); ++i) {
-    const auto& polygon = polygons[i];
-    std::vector<sf::Vector2f> bodyPart;
-
-    std::transform(polygon.begin(), polygon.end(), std::back_inserter(bodyPart),
-                   [](const auto& vertice) { return static_cast<sf::Vector2f>(vertice); });
+CollisionBody::CollisionBody(const sf::FloatRect& bbox, std::vector<std::vector<sf::Vector2f>> polygons) {
+  for (auto&& bodyPart : polygons) {
     _body.emplace_back(std::move(bodyPart));
   }
 
   std::vector<sf::Vector2f> bboxVertices;
-  bboxVertices.emplace_back(static_cast<float>(bbox.left), static_cast<float>(bbox.top));
-  bboxVertices.emplace_back(static_cast<float>(bbox.left), static_cast<float>(bbox.top + bbox.height));
-  bboxVertices.emplace_back(static_cast<float>(bbox.left + bbox.width), static_cast<float>(bbox.top + bbox.height));
-  bboxVertices.emplace_back(static_cast<float>(bbox.left + bbox.width), static_cast<float>(bbox.top));
+  bboxVertices.emplace_back(bbox.left, bbox.top);
+  bboxVertices.emplace_back(bbox.left, bbox.top + bbox.height);
+  bboxVertices.emplace_back(bbox.left + bbox.width, bbox.top + bbox.height);
+  bboxVertices.emplace_back(bbox.left + bbox.width, bbox.top);
   _boundingBox = Bbox(std::move(bboxVertices));
+}
+
+void CollisionBody::draw(sf::RenderTarget& target, sf::RenderStates) const {
+  target.draw(_boundingBox);
+  for (const auto& bodyPart : _body) {
+    target.draw(bodyPart);
+  }
 }
 
 void CollisionBody::setPosition(const sf::Vector2f& position) {

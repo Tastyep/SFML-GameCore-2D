@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <utility>
 
+#include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Vector2.hpp>
 
@@ -13,13 +14,15 @@ namespace GameCore {
 namespace World {
 namespace Physic {
 
-class CollisionBody {
+class CollisionBody : public sf::Drawable {
  public:
   using Bbox = Polygon;
   using Body = std::vector<Polygon>;
 
  public:
-  CollisionBody(const sf::Rect<int>& bbox, const std::vector<std::vector<sf::Vector2i>>& polygons);
+  CollisionBody(const sf::FloatRect& bbox, std::vector<std::vector<sf::Vector2f>> polygons);
+
+  void draw(sf::RenderTarget& target, sf::RenderStates) const override;
 
   void setPosition(const sf::Vector2f& position);
   void move(const sf::Vector2f& distance);
