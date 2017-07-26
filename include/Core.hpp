@@ -17,9 +17,6 @@
 namespace GameCore {
 
 class Core {
- private:
-  const std::string kAssetDir = "../assets/";
-
  public:
   Core();
 

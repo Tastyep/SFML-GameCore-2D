@@ -6,20 +6,23 @@ namespace GameCore {
 namespace World {
 namespace Entity {
 
-Entity::Entity(Physic::CollisionBody body, sf::Sprite sprite)
+Entity::Entity(Physic::CollisionBody body, const sf::Sprite& sprite)
   : _body(std::move(body))
-  , _sprite(std::move(sprite)) {}
+  , _sprite(sprite) {}
 
 void Entity::draw(sf::RenderTarget& target, sf::RenderStates) const {
   target.draw(_sprite);
+  target.draw(_body);
 }
 
 void Entity::setPosition(const sf::Vector2f& position) {
   _body.setPosition(position);
+  _sprite.setPosition(position);
 }
 
 void Entity::move(const sf::Vector2f& distance) {
   _body.move(distance);
+  _sprite.move(distance);
 }
 
 const Physic::CollisionBody& Entity::body() const {

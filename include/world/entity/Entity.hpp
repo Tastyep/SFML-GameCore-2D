@@ -14,7 +14,7 @@ namespace Entity {
 
 class Entity : public sf::Drawable {
  public:
-  Entity(Physic::CollisionBody body, sf::Sprite sprite);
+  Entity(Physic::CollisionBody body, const sf::Sprite& sprite);
 
   virtual void update() = 0;
 

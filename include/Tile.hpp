@@ -6,7 +6,8 @@ namespace GameCore {
 enum class Tile {
   PLAYER,
   WALL,
-  FLOOR,
+  BALL,
+  LAST,
 };
 
 } /* namespace GameCore */

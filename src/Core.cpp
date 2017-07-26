@@ -8,6 +8,8 @@
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
 
+#include "GameConstant.hpp"
+
 #include "configParser/BindModule.hpp"
 #include "input/Manager.hpp"
 #include "util/EnumCast.hpp"
@@ -44,6 +46,8 @@ void Core::runGameLoop() {
   const size_t maxFrameSkip = 5;
   const auto skipTicks = 1000ms / ticksPerSecond;
 
+  _world->loadMap(kMapDir + "TestMap.map");
+
   sf::Event event;
   auto nextGameTick = std::chrono::steady_clock::now();
   while (_window.isOpen()) {
@@ -64,6 +68,7 @@ void Core::runGameLoop() {
     _inputManager.run();
 
     _window.clear();
+    _window.draw(*_world);
     _window.display();
   }
 }
@@ -97,7 +102,7 @@ bool Core::loadRessources() {
   const auto& mainTexture = _textureManager.get("mainAsset");
   _tileManager->parse(mainTexture, 32);
 
-  for (auto id = enum_cast(Tile::PLAYER); id <= enum_cast(Tile::FLOOR); ++id) {
+  for (auto id = enum_cast(Tile::PLAYER); id < enum_cast(Tile::LAST); ++id) {
     _hitboxManager->load(static_cast<Tile>(id), _tileManager->tile(static_cast<Tile>(id)), 80);
   }
   return true;
