@@ -34,7 +34,6 @@ std::vector<sf::Vector2f> PolygonBuilder::make(const std::vector<sf::Vector2i>& 
       ++lvLength;
       continue;
     }
-
     const auto& svStart = contour[i - ksvLength];
     sf::Vector2f svDirection{ p - svStart };
 
@@ -69,7 +68,7 @@ std::vector<sf::Vector2f> PolygonBuilder::make(const std::vector<sf::Vector2i>& 
 }
 
 size_t PolygonBuilder::pickIntersection(const std::vector<sf::Vector2i>& contour, size_t i) const {
-  sf::Vector2i nextDirection{ contour[i + 1] - contour[i - 1] };
+  sf::Vector2i nextDirection{ contour[(i + 1) % contour.size()] - contour[i - 1] };
 
   // Take the outside point.
   if (nextDirection.x == 0 || nextDirection.y == 0) { // Is Straight.

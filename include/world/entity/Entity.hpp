@@ -17,6 +17,7 @@ class Entity : public sf::Drawable {
   Entity(Physic::CollisionBody body, const sf::Sprite& sprite);
 
   virtual void update() = 0;
+  virtual bool moves() const = 0;
 
  public:
   void draw(sf::RenderTarget& target, sf::RenderStates) const override;

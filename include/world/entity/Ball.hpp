@@ -12,6 +12,9 @@ class Ball : public Entity {
   Ball(Physic::CollisionBody body, const sf::Sprite& sprite);
 
   void update() override;
+  bool moves() const override {
+    return true;
+  }
 };
 
 } /* namespace Entity */

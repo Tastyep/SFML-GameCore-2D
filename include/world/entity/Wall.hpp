@@ -12,6 +12,9 @@ class Wall : public Entity {
   Wall(Physic::CollisionBody body, const sf::Sprite& sprite);
 
   void update() override;
+  bool moves() const override {
+    return false;
+  }
 };
 
 } /* namespace Entity */

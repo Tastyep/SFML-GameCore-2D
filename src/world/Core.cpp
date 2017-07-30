@@ -10,11 +10,15 @@
 namespace GameCore {
 namespace World {
 
-Core::Core(std::unique_ptr<Entity::Factory> entityFactory)
-  : _entityFactory(std::move(entityFactory)) {}
+Core::Core(std::unique_ptr<Entity::Factory> entityFactory, const sf::FloatRect& viewRect)
+  : _entityFactory(std::move(entityFactory))
+  , _viewRect(viewRect)
+  , _grid(kTileSize) {}
 
 void Core::draw(sf::RenderTarget& target, sf::RenderStates) const {
-  for (const auto& entity : _entities) {
+  auto entities = _grid.entities(_viewRect);
+
+  for (const auto& entity : entities) {
     target.draw(*entity);
   }
 }
@@ -58,13 +62,13 @@ bool Core::loadMap(const std::string& filePath) {
       default:
         std::cerr << "Error | line: " << y << " | c: " << x << " | Invalid tild id: " << enum_cast(id) << "."
                   << std::endl;
-        _entities.clear();
+                  _grid.clear();
         return false;
       }
       // clang-format on
 
       entity->setPosition(screenPos);
-      _entities.push_back(std::move(entity));
+      _grid.add(std::move(entity));
     }
   }
   return true;

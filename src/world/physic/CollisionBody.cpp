@@ -9,12 +9,7 @@ CollisionBody::CollisionBody(const sf::FloatRect& bbox, std::vector<std::vector<
     _body.emplace_back(std::move(bodyPart));
   }
 
-  std::vector<sf::Vector2f> bboxVertices;
-  bboxVertices.emplace_back(bbox.left, bbox.top);
-  bboxVertices.emplace_back(bbox.left, bbox.top + bbox.height);
-  bboxVertices.emplace_back(bbox.left + bbox.width, bbox.top + bbox.height);
-  bboxVertices.emplace_back(bbox.left + bbox.width, bbox.top);
-  _boundingBox = Bbox(std::move(bboxVertices));
+  _boundingBox = Polygon(bbox);
 }
 
 void CollisionBody::draw(sf::RenderTarget& target, sf::RenderStates) const {

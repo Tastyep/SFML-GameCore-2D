@@ -25,7 +25,7 @@ Core::Core()
   auto entityFactory =
     std::make_unique<World::Entity::Factory>(_tileManager, _hitboxManager, _inputManager.dispatcher());
 
-  _world = std::make_unique<World::Core>(std::move(entityFactory));
+  _world = std::make_unique<World::Core>(std::move(entityFactory), sf::FloatRect(0, 0, 1000, 1000));
 }
 
 void Core::run() {

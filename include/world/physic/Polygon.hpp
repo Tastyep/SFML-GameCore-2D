@@ -7,6 +7,7 @@
 #include <vector>
 
 #include <SFML/Graphics/Drawable.hpp>
+#include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/VertexArray.hpp>
 #include <SFML/System/Vector2.hpp>
@@ -19,8 +20,10 @@ class Polygon : public sf::Drawable {
  public:
   Polygon() = default;
   explicit Polygon(std::vector<sf::Vector2f> vertices);
+  explicit Polygon(const sf::FloatRect& rect);
 
   Polygon& operator=(std::vector<sf::Vector2f> vertices);
+  const sf::Vector2f& operator[](size_t index) const;
 
   const std::vector<sf::Vector2f>& vertices() const;
   const std::vector<sf::Vector2f>& normals() const;

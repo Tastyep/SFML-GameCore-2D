@@ -22,7 +22,7 @@ find_package(SFML 2.1 REQUIRED system window graphics audio)
 
 # Build variables
 set(CMAKE_BUILD_TYPE Release)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -Wextra")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -Wextra -g")
 
 include_directories (${PROJECT_SOURCE_DIR}/${INCLUDE_DIR})
 

@@ -8,6 +8,16 @@ Polygon::Polygon(std::vector<sf::Vector2f> vertices) {
   this->operator=(std::move(vertices));
 }
 
+Polygon::Polygon(const sf::FloatRect& rect) {
+  std::vector<sf::Vector2f> vertices;
+
+  vertices.emplace_back(rect.left, rect.top);
+  vertices.emplace_back(rect.left, rect.top + rect.height);
+  vertices.emplace_back(rect.left + rect.width, rect.top + rect.height);
+  vertices.emplace_back(rect.left + rect.width, rect.top);
+  this->operator=(std::move(vertices));
+}
+
 Polygon& Polygon::operator=(std::vector<sf::Vector2f> vertices) {
   _vertices = std::move(vertices);
   _originTranslation = _vertices.front();
@@ -23,6 +33,10 @@ Polygon& Polygon::operator=(std::vector<sf::Vector2f> vertices) {
 
   this->refresh();
   return *this;
+}
+
+const sf::Vector2f& Polygon::operator[](size_t index) const {
+  return _vertices[index];
 }
 
 const std::vector<sf::Vector2f>& Polygon::vertices() const {
