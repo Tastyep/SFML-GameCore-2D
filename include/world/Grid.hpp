@@ -7,6 +7,8 @@
 #include <utility>
 #include <vector>
 
+#include <SFML/Graphics/Rect.hpp>
+
 #include "world/entity/Entity.hpp"
 #include "world/physic/Polygon.hpp"
 
@@ -37,7 +39,7 @@ class Grid {
 
   void moveEntity(const std::shared_ptr<Entity::Entity>& entity, const Physic::Polygon& prevBound,
                   const Physic::Polygon& newBound);
-  std::unordered_set<std::shared_ptr<Entity::Entity>> entities(const Physic::Polygon& viewRect) const;
+  std::unordered_set<std::shared_ptr<Entity::Entity>> entities(const sf::FloatRect& viewRect) const;
   void add(std::shared_ptr<Entity::Entity> entity);
   void remove(const std::shared_ptr<Entity::Entity>& entity);
   void clear();

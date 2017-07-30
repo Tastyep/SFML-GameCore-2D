@@ -12,11 +12,11 @@ namespace World {
 
 Core::Core(std::unique_ptr<Entity::Factory> entityFactory, const sf::FloatRect& viewRect)
   : _entityFactory(std::move(entityFactory))
-  , _viewRect(viewRect)
-  , _grid(kTileSize) {}
+  , _grid(kTileSize)
+  , _camera(viewRect) {}
 
 void Core::draw(sf::RenderTarget& target, sf::RenderStates) const {
-  auto entities = _grid.entities(_viewRect);
+  auto entities = _grid.entities(_camera.view());
 
   for (const auto& entity : entities) {
     target.draw(*entity);

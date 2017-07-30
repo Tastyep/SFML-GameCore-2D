@@ -32,8 +32,8 @@ void Grid::moveEntity(const std::shared_ptr<Entity::Entity>& entity, const Physi
   this->remove(entity, std::move(prevInter));
 }
 
-std::unordered_set<std::shared_ptr<Entity::Entity>> Grid::entities(const Physic::Polygon& viewRect) const {
-  auto cells = this->overlappedCells(this->rectReach(viewRect));
+std::unordered_set<std::shared_ptr<Entity::Entity>> Grid::entities(const sf::FloatRect& viewRect) const {
+  auto cells = this->overlappedCells(this->rectReach(Physic::Polygon(viewRect)));
 
   return this->entities(cells);
 }

@@ -6,6 +6,7 @@
 
 #include <SFML/Graphics/Drawable.hpp>
 
+#include "world/Camera.hpp"
 #include "world/Grid.hpp"
 #include "world/entity/Factory.hpp"
 #include "world/physic/Polygon.hpp"
@@ -23,8 +24,8 @@ class Core : public sf::Drawable {
 
  private:
   std::unique_ptr<Entity::Factory> _entityFactory;
-  Physic::Polygon _viewRect;
   Grid _grid;
+  Camera _camera;
 };
 
 } /* namespace World */
