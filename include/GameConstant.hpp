@@ -5,6 +5,7 @@ namespace GameCore {
 
 const std::string kAssetDir = "../assets/";
 const std::string kMapDir = "../maps/";
+const std::string kConfigDir = "../config/";
 
 const int kTileSize = 32;
 const int kMapNumberLength = 2;

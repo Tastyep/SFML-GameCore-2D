@@ -31,7 +31,7 @@ Core::Core()
 void Core::run() {
   this->createWindow();
   this->registerParserModules();
-  this->parseConfigFile("./Game.cfg");
+  this->parseConfigFile(kConfigDir + "Game.cfg");
   if (!this->loadRessources()) {
     return;
   }
