@@ -15,6 +15,14 @@ Core::Core(std::unique_ptr<Entity::Factory> entityFactory, const sf::FloatRect& 
   , _grid(kTileSize)
   , _camera(viewRect) {}
 
+void Core::update() {
+  auto entities = _grid.entities(_camera.view());
+
+  for (auto& entity : entities) {
+    entity->update();
+  }
+}
+
 void Core::draw(sf::RenderTarget& target, sf::RenderStates) const {
   auto entities = _grid.entities(_camera.view());
 

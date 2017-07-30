@@ -18,6 +18,7 @@ class Core : public sf::Drawable {
  public:
   Core(std::unique_ptr<Entity::Factory> entityFactory, const sf::FloatRect& viewRect);
 
+  void update();
   void draw(sf::RenderTarget& target, sf::RenderStates) const override;
 
   bool loadMap(const std::string& file);

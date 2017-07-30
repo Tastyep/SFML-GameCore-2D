@@ -3,11 +3,29 @@
 
 #include "world/entity/Entity.hpp"
 
+#include <initializer_list>
+#include <unordered_map>
+
+#include "Action.hpp"
+#include "input/ActionHandler.hpp"
+
 namespace GameCore {
 namespace World {
 namespace Entity {
 
-class Player : public Entity {
+class Player : public Entity, public Input::ActionHandler<Action> {
+ public:
+  // clang-format off
+ const std::initializer_list<Action> kActionTable = {
+    Action::USE,
+    Action::LEFT,
+    Action::RIGHT,
+    Action::UP,
+    Action::DOWN,
+    Action::JUMP,
+  };
+  // clang-format on
+
  public:
   Player(Physic::CollisionBody body, const sf::Sprite& sprite);
 
@@ -15,6 +33,11 @@ class Player : public Entity {
   bool moves() const override {
     return true;
   }
+
+  void handle(Action action);
+
+ private:
+  std::unordered_map<Action, bool> _actions;
 };
 
 } /* namespace Entity */

@@ -52,12 +52,47 @@ class Factory {
   template <typename Entity>
   static constexpr Tile FindTileId = static_cast<Tile>(mpl::at<EntityMap, Entity>::type::value);
 
+ private:
+  struct MakerBase {
+    MakerBase(const Factory& factory)
+      : _factory(factory) {}
+
+   protected:
+    const Factory& _factory;
+  };
+  template <typename Entity, typename... Args>
+  struct Maker : public MakerBase {
+    using MakerBase::MakerBase;
+
+    std::shared_ptr<Entity> operator()(Args... args) const {
+      return _factory.init<Entity>(std::forward<Args>(args)...);
+    }
+  };
+
+  template <typename... Args>
+  struct Maker<Player, Args...> : public MakerBase {
+    using MakerBase::MakerBase;
+
+    std::shared_ptr<Player> operator()(Args... args) const {
+      auto player = _factory.init<Player>(std::forward<Args>(args)...);
+
+      _factory._actionDispatcher->registerHandler(player->kActionTable, player);
+      return player;
+    }
+  };
+
  public:
   Factory(std::shared_ptr<Ressource::TileManager> tileManager, std::shared_ptr<Hitbox::Manager<Tile>> hitboxManager,
           std::shared_ptr<Input::Dispatcher<Action>> actionDispatcher);
 
   template <typename Entity, typename... Args>
   std::shared_ptr<Entity> create(Args... args) const {
+    return Maker<Entity, Args...>(*this)(std::forward<Args>(args)...);
+  }
+
+ private:
+  template <typename Entity, typename... Args>
+  std::shared_ptr<Entity> init(Args... args) const {
     auto tileId = FindTileId<Entity>;
     auto body = _hitboxManager->skeleton(tileId);
     auto boundingBox = _hitboxManager->boundingBox(tileId);

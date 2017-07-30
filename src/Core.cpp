@@ -66,6 +66,7 @@ void Core::runGameLoop() {
 
     // Checks the key pressed and dispatches the associated actions.
     _inputManager.run();
+    _world->update();
 
     _window.clear();
     _window.draw(*_world);

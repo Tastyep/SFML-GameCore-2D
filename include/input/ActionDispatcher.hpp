@@ -1,6 +1,7 @@
 #ifndef GAME_CORE_INPUT_ACTION_DISPATCHER_HPP
 #define GAME_CORE_INPUT_ACTION_DISPATCHER_HPP
 
+#include <initializer_list>
 #include <memory>
 #include <unordered_map>
 #include <vector>
@@ -14,6 +15,12 @@ template <typename Action>
 class Dispatcher {
  public:
   Dispatcher() = default;
+
+  void registerHandler(std::initializer_list<Action> actions, std::shared_ptr<ActionHandler<Action>> handler) {
+    for (const auto& action : actions) {
+      this->registerHandler(action, handler);
+    }
+  }
 
   void registerHandler(Action action, std::shared_ptr<ActionHandler<Action>> handler) {
     _handlers[action].emplace_back(std::move(handler));
