@@ -1,13 +1,14 @@
 cmake_minimum_required (VERSION 2.8.1)
 cmake_policy(SET CMP0042 NEW)
 
-set(NAME "GameCore")
-project (${NAME} CXX)
+set(BIN_NAME "GameCore")
+project (${BIN_NAME} CXX)
 
 # Global variables
-set(MODULE_DIR cmake/Modules)
+set(MODULE_DIR cmake)
 set(SOURCE_DIR src)
 set(INCLUDE_DIR include)
+set(LIB_DIR lib)
 set(TEST_DIR example)
 
 # CMake properties
@@ -16,21 +17,23 @@ set(CMAKE_INCLUDE_DIRECTORIES_PROJECT_BEFORE ON)
 set(PREDEFINED_TARGETS_FOLDER "CMake")
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/${MODULE_DIR})
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
-# Find packages
-find_package(SFML 2.1 REQUIRED system window graphics audio)
-
-# Build variables
 set(CMAKE_BUILD_TYPE Release)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -Wextra -g")
+
+# Resolve dependencies
+include(ResolveSFML)
+include(ResolveBox2d)
+
 
 include_directories (${PROJECT_SOURCE_DIR}/${INCLUDE_DIR})
+include_directories (${PROJECT_SOURCE_DIR}/${LIB_DIR})
 
-# Source files
-file(GLOB_RECURSE SOURCE_FILES "${PROJECT_SOURCE_DIR}/${SOURCE_DIR}/*pp")
-file(GLOB_RECURSE TEST_FILES "${PROJECT_SOURCE_DIR}/${TEST_DIR}/*pp")
-list(APPEND SOURCE_FILES ${TEST_FILES})
+# Local source files
+include(Sources)
 
-add_executable(${NAME} ${SOURCE_FILES})
+# Compilation flags
+include(Flags)
 
-target_link_libraries (${NAME} ${SFML_LIBRARIES})
+message(STATUS "src: ${SOURCE_FILES}")
+
+add_executable(${BIN_NAME} ${SOURCE_FILES})
+target_link_libraries(${BIN_NAME} ${EXTERNAL_LIBRARIES})

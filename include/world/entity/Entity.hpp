@@ -29,6 +29,9 @@ class Entity : public sf::Drawable {
  public:
   const Physic::CollisionBody& body() const;
 
+ protected:
+  sf::Vector2f _position;
+
  private:
   Physic::CollisionBody _body;
   sf::Sprite _sprite;

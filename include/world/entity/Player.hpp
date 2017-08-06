@@ -1,7 +1,7 @@
 #ifndef GAME_CORE_WORLD_ENTITY_PLAYER_HPP
 #define GAME_CORE_WORLD_ENTITY_PLAYER_HPP
 
-#include "world/entity/Entity.hpp"
+#include "world/entity/Movable.hpp"
 
 #include <initializer_list>
 #include <unordered_map>
@@ -13,7 +13,7 @@ namespace GameCore {
 namespace World {
 namespace Entity {
 
-class Player : public Entity, public Input::ActionHandler<Action> {
+class Player : public Movable, public Input::ActionHandler<Action> {
  public:
   // clang-format off
  const std::initializer_list<Action> kActionTable = {
@@ -35,6 +35,9 @@ class Player : public Entity, public Input::ActionHandler<Action> {
   }
 
   void handle(Action action);
+
+ private:
+  float kRotationAngle = 5;
 
  private:
   std::unordered_map<Action, bool> _actions;

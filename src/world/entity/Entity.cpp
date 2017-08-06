@@ -18,11 +18,13 @@ void Entity::draw(sf::RenderTarget& target, sf::RenderStates) const {
 void Entity::setPosition(const sf::Vector2f& position) {
   _body.setPosition(position);
   _sprite.setPosition(position);
+  _position = position;
 }
 
 void Entity::move(const sf::Vector2f& distance) {
   _body.move(distance);
   _sprite.move(distance);
+  _position += distance;
 }
 
 const Physic::CollisionBody& Entity::body() const {

@@ -5,9 +5,9 @@
 #include <vector>
 
 #include <SFML/Graphics/Drawable.hpp>
+#include "Box2D/Box2D.h"
 
 #include "world/Camera.hpp"
-#include "world/Grid.hpp"
 #include "world/entity/Factory.hpp"
 #include "world/physic/Polygon.hpp"
 
@@ -24,8 +24,8 @@ class Core : public sf::Drawable {
   bool loadMap(const std::string& file);
 
  private:
+  b2World _world;
   std::unique_ptr<Entity::Factory> _entityFactory;
-  Grid _grid;
   Camera _camera;
 };
 

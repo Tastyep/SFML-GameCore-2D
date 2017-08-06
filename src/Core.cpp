@@ -1,6 +1,5 @@
 #include "Core.hpp"
 
-#include <chrono>
 #include <cstddef>
 #include <memory>
 #include <utility>
@@ -14,8 +13,6 @@
 #include "input/Manager.hpp"
 #include "util/EnumCast.hpp"
 #include "world/entity/Factory.hpp"
-
-using namespace std::literals::chrono_literals;
 
 namespace GameCore {
 
@@ -42,9 +39,7 @@ void Core::run() {
 }
 
 void Core::runGameLoop() {
-  const size_t ticksPerSecond = 30;
   const size_t maxFrameSkip = 5;
-  const auto skipTicks = 1000ms / ticksPerSecond;
 
   _world->loadMap(kMapDir + "TestMap.map");
 
@@ -59,14 +54,13 @@ void Core::runGameLoop() {
 
     for (size_t loopCount = 0; std::chrono::steady_clock::now() > nextGameTick && loopCount < maxFrameSkip;
          ++loopCount) {
-      // this->updatePhysic();
-      nextGameTick += skipTicks;
+      _world->update();
+      nextGameTick += kTimeStep;
       ++loopCount;
     }
 
     // Checks the key pressed and dispatches the associated actions.
     _inputManager.run();
-    _world->update();
 
     _window.clear();
     _window.draw(*_world);

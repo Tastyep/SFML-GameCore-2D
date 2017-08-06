@@ -11,24 +11,28 @@ namespace GameCore {
 namespace World {
 
 Core::Core(std::unique_ptr<Entity::Factory> entityFactory, const sf::FloatRect& viewRect)
-  : _entityFactory(std::move(entityFactory))
-  , _grid(kTileSize)
+  : _world(b2Vec2(0.f, kGravity))
+  , _entityFactory(std::move(entityFactory))
   , _camera(viewRect) {}
 
 void Core::update() {
-  auto entities = _grid.entities(_camera.view());
-
-  for (auto& entity : entities) {
-    entity->update();
-  }
+  // auto entities = _grid.entities(_camera.view());
+  //
+  // for (auto& entity : entities) {
+  //   if (entity->moves()) {
+  //     const auto oldBbox = entity->body().boundingBox();
+  //     entity->update();
+  //     const auto newBbox = entity->body().boundingBox();
+  //   }
+  // }
 }
 
 void Core::draw(sf::RenderTarget& target, sf::RenderStates) const {
-  auto entities = _grid.entities(_camera.view());
-
-  for (const auto& entity : entities) {
-    target.draw(*entity);
-  }
+  // auto entities = _grid.entities(_camera.view());
+  //
+  // for (const auto& entity : entities) {
+  //   target.draw(*entity);
+  // }
 }
 
 bool Core::loadMap(const std::string& filePath) {
@@ -70,13 +74,12 @@ bool Core::loadMap(const std::string& filePath) {
       default:
         std::cerr << "Error | line: " << y << " | c: " << x << " | Invalid tild id: " << enum_cast(id) << "."
                   << std::endl;
-                  _grid.clear();
         return false;
       }
       // clang-format on
 
       entity->setPosition(screenPos);
-      _grid.add(std::move(entity));
+      // _grid.add(std::move(entity));
     }
   }
   return true;
