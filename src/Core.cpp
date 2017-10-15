@@ -55,7 +55,7 @@ void Core::runGameLoop() {
     for (size_t loopCount = 0; std::chrono::steady_clock::now() > nextGameTick && loopCount < maxFrameSkip;
          ++loopCount) {
       _world->update();
-      nextGameTick += kTimeStep;
+      nextGameTick += kTimeStepDuration;
       ++loopCount;
     }
 

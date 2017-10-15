@@ -11,28 +11,24 @@ namespace GameCore {
 namespace World {
 
 Core::Core(std::unique_ptr<Entity::Factory> entityFactory, const sf::FloatRect& viewRect)
-  : _world(b2Vec2(0.f, kGravity))
-  , _entityFactory(std::move(entityFactory))
-  , _camera(viewRect) {}
+  : _entityFactory(std::move(entityFactory))
+  , _camera(viewRect) {
+  _world = std::make_shared<b2World>(b2Vec2(0.f, -kGravity));
+  _entityFactory->setWorld(_world);
+}
 
 void Core::update() {
-  // auto entities = _grid.entities(_camera.view());
-  //
-  // for (auto& entity : entities) {
-  //   if (entity->moves()) {
-  //     const auto oldBbox = entity->body().boundingBox();
-  //     entity->update();
-  //     const auto newBbox = entity->body().boundingBox();
-  //   }
-  // }
+  _world->Step(kTimeStep, kVelocityIt, kPositionIt);
+
+  for (auto& entity : _entities) {
+    entity->update();
+  }
 }
 
 void Core::draw(sf::RenderTarget& target, sf::RenderStates) const {
-  // auto entities = _grid.entities(_camera.view());
-  //
-  // for (const auto& entity : entities) {
-  //   target.draw(*entity);
-  // }
+  for (const auto& entity : _entities) {
+    target.draw(*entity);
+  }
 }
 
 bool Core::loadMap(const std::string& filePath) {
@@ -57,29 +53,28 @@ bool Core::loadMap(const std::string& filePath) {
       std::string number(line, i, kMapNumberLength);
       Tile id = static_cast<Tile>(std::stoi(number));
       std::shared_ptr<Entity::Entity> entity;
-      auto screenPos =
-        sf::Vector2f(static_cast<float>(x), static_cast<float>(y)) * static_cast<float>(kTileSize) + kEntityOrigin;
+      auto screenPos = sf::Vector2f(static_cast<float>(x), static_cast<float>(y)) * static_cast<float>(kTileSize);
 
       // clang-format off
       switch (id) {
       case Tile::PLAYER:
-        entity = _entityFactory->create<Entity::Player>();
+        entity = _entityFactory->create<Entity::Player>(screenPos);
         break;
       case Tile::WALL:
-        entity = _entityFactory->create<Entity::Wall>();
+        entity = _entityFactory->create<Entity::Wall>(screenPos);
         break;
       case Tile::BALL:
-        entity = _entityFactory->create<Entity::Ball>();
+        entity = _entityFactory->create<Entity::Ball>(screenPos);
         break;
       default:
         std::cerr << "Error | line: " << y << " | c: " << x << " | Invalid tild id: " << enum_cast(id) << "."
                   << std::endl;
+        _entities.clear();
         return false;
       }
       // clang-format on
 
-      entity->setPosition(screenPos);
-      // _grid.add(std::move(entity));
+      _entities.push_back(std::move(entity));
     }
   }
   return true;

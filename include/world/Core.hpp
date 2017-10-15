@@ -24,9 +24,10 @@ class Core : public sf::Drawable {
   bool loadMap(const std::string& file);
 
  private:
-  b2World _world;
+  std::shared_ptr<b2World> _world;
   std::unique_ptr<Entity::Factory> _entityFactory;
   Camera _camera;
+  std::vector<std::shared_ptr<Entity::Entity>> _entities;
 };
 
 } /* namespace World */

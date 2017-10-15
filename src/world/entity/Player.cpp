@@ -4,8 +4,8 @@ namespace GameCore {
 namespace World {
 namespace Entity {
 
-Player::Player(Physic::CollisionBody body, const sf::Sprite& sprite)
-  : Movable(std::move(body), sprite) {
+Player::Player(b2Body* body, const sf::Sprite& sprite)
+  : Entity(std::move(body), sprite) {
   for (auto action : kActionTable) {
     _actions.emplace(action, false);
   }
@@ -18,12 +18,12 @@ void Player::update() {
   if (moveSide != 0) {
     this->move(moveSide);
   }
-  if (rotateSide != 0) {
-    this->rotate(kRotationAngle * rotateSide);
-  }
-  for (auto action : kActionTable) {
-    _actions[action] = false;
-  }
+  // if (rotateSide != 0) {
+  //   this->rotate(kRotationAngle * rotateSide);
+  // }
+  // for (auto action : kActionTable) {
+  //   _actions[action] = false;
+  // }
 }
 
 void Player::handle(Action action) {

@@ -1,7 +1,7 @@
 #ifndef GAME_CORE_WORLD_ENTITY_PLAYER_HPP
 #define GAME_CORE_WORLD_ENTITY_PLAYER_HPP
 
-#include "world/entity/Movable.hpp"
+#include "world/entity/Entity.hpp"
 
 #include <initializer_list>
 #include <unordered_map>
@@ -13,7 +13,7 @@ namespace GameCore {
 namespace World {
 namespace Entity {
 
-class Player : public Movable, public Input::ActionHandler<Action> {
+class Player : public Entity, public Input::ActionHandler<Action> {
  public:
   // clang-format off
  const std::initializer_list<Action> kActionTable = {
@@ -27,7 +27,7 @@ class Player : public Movable, public Input::ActionHandler<Action> {
   // clang-format on
 
  public:
-  Player(Physic::CollisionBody body, const sf::Sprite& sprite);
+  Player(b2Body* body, const sf::Sprite& sprite);
 
   void update() override;
   bool moves() const override {

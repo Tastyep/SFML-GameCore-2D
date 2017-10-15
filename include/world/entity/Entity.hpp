@@ -1,10 +1,13 @@
 #ifndef GAME_CORE_WORLD_ENTITY_ENTITY_HPP
 #define GAME_CORE_WORLD_ENTITY_ENTITY_HPP
 
+#include <memory>
 #include <vector>
 
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Sprite.hpp>
+
+#include "Box2D/Dynamics/b2Body.h"
 
 #include "world/physic/CollisionBody.hpp"
 
@@ -14,8 +17,8 @@ namespace Entity {
 
 class Entity : public sf::Drawable {
  public:
-  Entity(Physic::CollisionBody body, const sf::Sprite& sprite);
-
+  Entity(b2Body* body, const sf::Sprite& sprite);
+  virtual ~Entity() = default;
   virtual void update() = 0;
   virtual bool moves() const = 0;
 
@@ -23,17 +26,16 @@ class Entity : public sf::Drawable {
   void draw(sf::RenderTarget& target, sf::RenderStates) const override;
 
  public:
-  void setPosition(const sf::Vector2f& position);
-  void move(const sf::Vector2f& distance);
+  void move(int direction);
 
  public:
-  const Physic::CollisionBody& body() const;
+  const b2Body& body() const;
 
  protected:
   sf::Vector2f _position;
 
  private:
-  Physic::CollisionBody _body;
+  b2Body* _body;
   sf::Sprite _sprite;
 };
 

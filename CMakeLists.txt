@@ -33,7 +33,5 @@ include(Sources)
 # Compilation flags
 include(Flags)
 
-message(STATUS "src: ${SOURCE_FILES}")
-
 add_executable(${BIN_NAME} ${SOURCE_FILES})
 target_link_libraries(${BIN_NAME} ${EXTERNAL_LIBRARIES})

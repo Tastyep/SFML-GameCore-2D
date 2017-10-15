@@ -4,10 +4,14 @@
 #include <cassert>
 #include <unordered_map>
 
+#include "GameConstant.hpp"
+
 #include "hitbox/BoundingBoxBuilder.hpp"
 #include "hitbox/ContourBuilder.hpp"
 #include "hitbox/PolygonBuilder.hpp"
 #include "hitbox/PolygonPartitioner.hpp"
+
+#include "Box2D/Collision/Shapes/b2PolygonShape.h"
 
 namespace GameCore {
 namespace Hitbox {
@@ -28,14 +32,30 @@ class Manager {
     auto boundingBox = _boundingBoxBuilder.make(floatContour);
     auto polygons = _polygonPartitioner.make(std::move(polygon));
 
-    _hitboxes[id] = { std::move(polygons), std::move(boundingBox) };
+    this->createBody(id, polygons, std::move(boundingBox));
   }
 
-  const std::vector<std::vector<sf::Vector2f>>& skeleton(const Identifier& id) const {
+  void createBody(const Identifier& id, const std::vector<Polygon>& polygons, sf::FloatRect boundingBox) {
+    std::vector<b2PolygonShape> body;
+
+    for (const auto& polygon : polygons) {
+      std::vector<b2Vec2> vertices;
+      b2PolygonShape bodyPart;
+
+      std::transform(polygon.begin(), polygon.end(), std::back_inserter(vertices),
+                     [](const auto& vertice) { return b2Vec2(vertice.x / kWorldScale, vertice.y / kWorldScale); });
+
+      bodyPart.Set(&vertices[0], vertices.size());
+      body.push_back(std::move(bodyPart));
+    }
+    _hitboxes[id] = { std::move(body), std::move(boundingBox) };
+  }
+
+  const std::vector<b2PolygonShape>& body(const Identifier& id) const {
     auto found = _hitboxes.find(id);
     assert(found != _hitboxes.end());
 
-    return found->second.skeleton;
+    return found->second.body;
   }
 
   const sf::FloatRect& boundingBox(const Identifier& id) const {
@@ -47,7 +67,7 @@ class Manager {
 
  private:
   struct Hitbox {
-    std::vector<Polygon> skeleton;
+    std::vector<b2PolygonShape> body;
     sf::FloatRect boundingBox;
   };
 
