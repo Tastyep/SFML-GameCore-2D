@@ -20,6 +20,9 @@ Entity::Entity(b2Body* body, const sf::Sprite& sprite)
 
 void Entity::draw(sf::RenderTarget& target, sf::RenderStates) const {
   // auto fixtures = _body->GetFixtureList();
+  const auto wPosition = _body->GetPosition();
+  _sprite.setPosition(sf::Vector2f(wPosition.x * kWorldScale, wPosition.y * kWorldScale));
+
   target.draw(_sprite);
   auto pos = _body->GetPosition();
 
@@ -39,17 +42,11 @@ void Entity::draw(sf::RenderTarget& target, sf::RenderStates) const {
 
 void Entity::move(int direction) {
   auto wAngle = _body->GetAngle();
-  float force = direction * 1;
+  float force = direction * 5;
   b2Vec2 wDirection = { std::cos(wAngle) * force, std::sin(wAngle) * force };
 
   std::cout << "wAngle: " << wDirection.x << " " << wDirection.y << std::endl;
-  _body->ApplyLinearImpulseToCenter(wDirection, true);
-
-  auto wPosition = _body->GetPosition();
-
-  std::cout << "pos: " << wPosition.x << " " << wPosition.y << " angle " << wAngle << std::endl;
-  _sprite.setPosition(sf::Vector2f(wPosition.x * kWorldScale, wPosition.y * kWorldScale));
-  // _position += distance;
+  _body->SetLinearVelocity(wDirection);
 }
 
 const b2Body& Entity::body() const {

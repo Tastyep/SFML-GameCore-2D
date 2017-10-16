@@ -36,7 +36,7 @@ class Entity : public sf::Drawable {
 
  private:
   b2Body* _body;
-  sf::Sprite _sprite;
+  mutable sf::Sprite _sprite;
 };
 
 } /* namespace Entity */

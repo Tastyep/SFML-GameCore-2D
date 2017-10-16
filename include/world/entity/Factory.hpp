@@ -9,6 +9,7 @@
 #include <boost/mpl/list.hpp>
 #include <boost/mpl/map.hpp>
 #include <boost/mpl/pair.hpp>
+#include <boost/mpl/vector.hpp>
 
 #include "Box2D/Box2D.h"
 
@@ -37,23 +38,34 @@ class Factory {
   // clang-format off
   using EntityMap =
     mpl::map<
+      // Player
       mpl::pair<
         Player,
-        mpl::int_<enum_cast(Tile::PLAYER)>
+        mpl::vector<mpl::int_<enum_cast(Tile::PLAYER)>,
+                    mpl::int_<enum_cast(b2_dynamicBody)>>
       >,
+      // Wall
       mpl::pair<
         Wall,
-        mpl::int_<enum_cast(Tile::WALL)>
+        mpl::vector<mpl::int_<enum_cast(Tile::WALL)>,
+                    mpl::int_<enum_cast(b2_staticBody)>>
       >,
+      // Ball
       mpl::pair<
         Ball,
-        mpl::int_<enum_cast(Tile::BALL)>
+        mpl::vector<mpl::int_<enum_cast(Tile::BALL)>,
+                    mpl::int_<enum_cast(b2_dynamicBody)>>
       >
     >;
   // clang-format on
 
   template <typename Entity>
-  static constexpr Tile FindTileId = static_cast<Tile>(mpl::at<EntityMap, Entity>::type::value);
+  using MapEntry = typename mpl::at<EntityMap, Entity>::type;
+
+  template <typename Entity>
+  static constexpr Tile TileId = static_cast<Tile>(mpl::at<MapEntry<Entity>, mpl::int_<0>>::type::value);
+  template <typename Entity>
+  static constexpr b2BodyType BodyType = static_cast<b2BodyType>(mpl::at<MapEntry<Entity>, mpl::int_<1>>::type::value);
 
  private:
   struct MakerBase {
@@ -103,11 +115,11 @@ class Factory {
  private:
   template <typename Entity, typename... Args>
   std::shared_ptr<Entity> init(const sf::Vector2f& position, Args... args) const {
-    auto tileId = FindTileId<Entity>;
+    auto tileId = TileId<Entity>;
     auto sprite = _tileManager->tile(tileId);
 
     b2BodyDef bodyDef;
-    bodyDef.type = b2_dynamicBody;
+    bodyDef.type = BodyType<Entity>;
     bodyDef.position.Set(position.x / kWorldScale, position.y / kWorldScale);
     sprite.setPosition(position);
     this->changeDataOrigin(sprite);

@@ -8,6 +8,7 @@
 #include "Box2D/Box2D.h"
 
 #include "world/Camera.hpp"
+#include "world/ContactListener.hpp"
 #include "world/entity/Factory.hpp"
 #include "world/physic/Polygon.hpp"
 
@@ -26,6 +27,7 @@ class Core : public sf::Drawable {
  private:
   std::shared_ptr<b2World> _world;
   std::unique_ptr<Entity::Factory> _entityFactory;
+  ContactListener _contactListener;
   Camera _camera;
   std::vector<std::shared_ptr<Entity::Entity>> _entities;
 };

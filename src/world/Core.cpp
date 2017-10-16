@@ -15,14 +15,17 @@ Core::Core(std::unique_ptr<Entity::Factory> entityFactory, const sf::FloatRect& 
   , _camera(viewRect) {
   _world = std::make_shared<b2World>(b2Vec2(0.f, -kGravity));
   _entityFactory->setWorld(_world);
+  _world->SetContactListener(&_contactListener);
 }
 
 void Core::update() {
+  std::cout << "start" << std::endl;
   _world->Step(kTimeStep, kVelocityIt, kPositionIt);
 
   for (auto& entity : _entities) {
     entity->update();
   }
+  std::cout << "end" << std::endl;
 }
 
 void Core::draw(sf::RenderTarget& target, sf::RenderStates) const {

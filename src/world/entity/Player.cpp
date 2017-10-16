@@ -21,9 +21,9 @@ void Player::update() {
   // if (rotateSide != 0) {
   //   this->rotate(kRotationAngle * rotateSide);
   // }
-  // for (auto action : kActionTable) {
-  //   _actions[action] = false;
-  // }
+  for (auto action : kActionTable) {
+    _actions[action] = false;
+  }
 }
 
 void Player::handle(Action action) {
