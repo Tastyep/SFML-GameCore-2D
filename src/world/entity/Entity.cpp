@@ -19,34 +19,30 @@ Entity::Entity(b2Body* body, const sf::Sprite& sprite)
 }
 
 void Entity::draw(sf::RenderTarget& target, sf::RenderStates) const {
-  // auto fixtures = _body->GetFixtureList();
   const auto wPosition = _body->GetPosition();
+  const auto bodyAngle = _body->GetAngle();
+
   _sprite.setPosition(sf::Vector2f(wPosition.x * kWorldScale, wPosition.y * kWorldScale));
+  _sprite.setRotation(bodyAngle);
 
   target.draw(_sprite);
-  auto pos = _body->GetPosition();
-
-  // auto pos = _body->GetWorldCenter();
-  //
-  // for (auto fixture = _body->GetFixtureList(); fixture; fixture = fixture->GetNext()) {
-  //   b2PolygonShape* shape = (b2PolygonShape*)fixture->GetShape();
-  //   sf::VertexArray vArray(sf::PrimitiveType::LineStrip, 0);
-  //
-  //   for (size_t i = 0; i < shape->m_count; ++i) {
-  //     auto v = shape->m_vertices[i];
-  //     vArray.append(sf::Vertex(sf::Vector2f{ v.x * kWorldScale, v.y * kWorldScale }, sf::Color::Black));
-  //   }
-  //   target.draw(vArray);
-  // }
 }
 
 void Entity::move(int direction) {
-  auto wAngle = _body->GetAngle();
+  float wAngle = _body->GetAngle();
   float force = direction * 5;
   b2Vec2 wDirection = { std::cos(wAngle) * force, std::sin(wAngle) * force };
 
   std::cout << "wAngle: " << wDirection.x << " " << wDirection.y << std::endl;
   _body->SetLinearVelocity(wDirection);
+}
+
+void Entity::rotate(int angle) {
+  float bodyAngle = _body->GetAngle();
+  std::cout << "bodyAngle: " << bodyAngle << std::endl;
+  bodyAngle += angle;
+
+  _body->SetTransform(_body->GetPosition(), bodyAngle);
 }
 
 const b2Body& Entity::body() const {

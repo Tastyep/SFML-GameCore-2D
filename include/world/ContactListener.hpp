@@ -3,6 +3,8 @@
 
 #include "Box2D/Dynamics/b2WorldCallbacks.h"
 
+#include "world/ContactDispatcher.hpp"
+
 namespace GameCore {
 namespace World {
 
@@ -10,6 +12,9 @@ class ContactListener : public b2ContactListener {
  public:
   void BeginContact(b2Contact* contact) override;
   void EndContact(b2Contact* contact) override;
+
+ private:
+  ContactDispatcher _contactDispatcher;
 };
 
 } /* namespace World */

@@ -27,6 +27,7 @@ class Entity : public sf::Drawable {
 
  public:
   void move(int direction);
+  void rotate(int degrees);
 
  public:
   const b2Body& body() const;

@@ -6,6 +6,10 @@
 namespace GameCore {
 namespace World {
 
+constexpr auto degToRad(float angle) {
+  return angle * M_PI / 180.f;
+}
+
 const sf::Vector2f kEntityOrigin = { static_cast<float>(GameCore::kTileSize) / 2.f,
                                      static_cast<float>(GameCore::kTileSize) / 2.f };
 

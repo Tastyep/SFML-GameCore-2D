@@ -19,13 +19,21 @@ set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/${MODULE_DIR})
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_BUILD_TYPE Release)
 
+message(STATUS "[Compiler] Using ${CMAKE_CXX_COMPILER_ID}-${CMAKE_CXX_COMPILER_VERSION}")
+
 # Resolve dependencies
 include(ResolveSFML)
-include(ResolveBox2d)
+include(ResolvePlayRho)
 
 
+# Third party include directories
+include_directories(SYSTEM ${EXTERNAL_INCLUDE_DIRS})
+
+# Third party link directories
+link_directories(${EXTERNAL_LIBRARY_DIRS})
+
+# Local include directories
 include_directories (${PROJECT_SOURCE_DIR}/${INCLUDE_DIR})
-include_directories (${PROJECT_SOURCE_DIR}/${LIB_DIR})
 
 # Local source files
 include(Sources)
@@ -34,4 +42,7 @@ include(Sources)
 include(Flags)
 
 add_executable(${BIN_NAME} ${SOURCE_FILES})
+
+add_dependencies(${BIN_NAME} ${EXTERNAL_DEPENDENCIES})
+
 target_link_libraries(${BIN_NAME} ${EXTERNAL_LIBRARIES})
