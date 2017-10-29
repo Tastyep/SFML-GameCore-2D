@@ -4,7 +4,7 @@ namespace GameCore {
 namespace World {
 namespace Entity {
 
-Ball::Ball(b2Body* body, const sf::Sprite& sprite)
+Ball::Ball(playrho::Body* body, const sf::Sprite& sprite)
   : Entity(std::move(body), sprite) {}
 
 void Ball::update() {}

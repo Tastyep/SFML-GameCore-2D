@@ -27,7 +27,7 @@ class Player : public Entity, public Input::ActionHandler<Action> {
   // clang-format on
 
  public:
-  Player(b2Body* body, const sf::Sprite& sprite);
+  Player(playrho::Body* body, const sf::Sprite& sprite);
 
   void update() override;
   bool moves() const override {

@@ -11,7 +11,8 @@
 #include "hitbox/PolygonBuilder.hpp"
 #include "hitbox/PolygonPartitioner.hpp"
 
-#include "Box2D/Collision/Shapes/b2PolygonShape.h"
+#include "PlayRho/Collision/Shapes/PolygonShape.hpp"
+#include "PlayRho/Common/VertexSet.hpp"
 
 namespace GameCore {
 namespace Hitbox {
@@ -23,53 +24,37 @@ class Manager {
 
  public:
   void load(const Identifier& id, const sf::Sprite& sprite, size_t accuracy) {
-    std::vector<sf::Vector2f> floatContour;
     auto contour = _contourBuilder.make(sprite);
     auto polygon = _polygonBuilder.make(contour, accuracy);
-
-    std::transform(contour.begin(), contour.end(), std::back_inserter(floatContour),
-                   [](const auto& vertice) { return static_cast<sf::Vector2f>(vertice); });
-    auto boundingBox = _boundingBoxBuilder.make(floatContour);
     auto polygons = _polygonPartitioner.make(std::move(polygon));
 
-    this->createBody(id, polygons, std::move(boundingBox));
+    this->createBody(id, polygons);
   }
 
-  void createBody(const Identifier& id, const std::vector<Polygon>& polygons, sf::FloatRect boundingBox) {
-    std::vector<b2PolygonShape> body;
-
-    for (const auto& polygon : polygons) {
-      std::vector<b2Vec2> vertices;
-      b2PolygonShape bodyPart;
-
-      std::transform(polygon.begin(), polygon.end(), std::back_inserter(vertices),
-                     [](const auto& vertice) { return b2Vec2(vertice.x / kWorldScale, vertice.y / kWorldScale); });
-
-      bodyPart.Set(&vertices[0], vertices.size());
-      body.push_back(std::move(bodyPart));
-    }
-    _hitboxes[id] = { std::move(body), std::move(boundingBox) };
-  }
-
-  const std::vector<b2PolygonShape>& body(const Identifier& id) const {
+  const std::vector<playrho::PolygonShape>& body(const Identifier& id) const {
     auto found = _hitboxes.find(id);
     assert(found != _hitboxes.end());
 
-    return found->second.body;
-  }
-
-  const sf::FloatRect& boundingBox(const Identifier& id) const {
-    auto found = _hitboxes.find(id);
-    assert(found != _hitboxes.end());
-
-    return found->second.boundingBox;
+    return found->second;
   }
 
  private:
-  struct Hitbox {
-    std::vector<b2PolygonShape> body;
-    sf::FloatRect boundingBox;
-  };
+  void createBody(const Identifier& id, const std::vector<Polygon>& polygons) {
+    std::vector<playrho::PolygonShape> body;
+
+    for (const auto& polygon : polygons) {
+      playrho::VertexSet vertices;
+      playrho::PolygonShape bodyPart;
+
+      std::for_each(polygon.begin(), polygon.end(), [&vertices](const auto& vertice) {
+        return vertices.add(playrho::Length2D{ vertice.x / kWorldScale, vertice.y / kWorldScale });
+      });
+
+      bodyPart.Set(vertices);
+      body.push_back(std::move(bodyPart));
+    }
+    _hitboxes[id] = std::move(body);
+  }
 
  private:
   ContourBuilder _contourBuilder;
@@ -78,7 +63,7 @@ class Manager {
   PolygonPartitioner _polygonPartitioner;
 
  private:
-  std::unordered_map<Identifier, Hitbox> _hitboxes;
+  std::unordered_map<Identifier, std::vector<playrho::PolygonShape>> _hitboxes;
 };
 
 } /* namespace Hitbox */

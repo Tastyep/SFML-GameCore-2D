@@ -1,5 +1,7 @@
 #include "world/Core.hpp"
 
+#include "PlayRho/Common/Math.hpp"
+
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -13,13 +15,14 @@ namespace World {
 Core::Core(std::unique_ptr<Entity::Factory> entityFactory, const sf::FloatRect& viewRect)
   : _entityFactory(std::move(entityFactory))
   , _camera(viewRect) {
-  _world = std::make_shared<b2World>(b2Vec2(0.f, -kGravity));
+  _world = std::make_shared<playrho::World>(playrho::WorldDef{ playrho::Vec2{ 0, kGravity } });
   _entityFactory->setWorld(_world);
   _world->SetContactListener(&_contactListener);
+  _stepConf.SetTime(kTimeStep);
 }
 
 void Core::update() {
-  _world->Step(kTimeStep, kVelocityIt, kPositionIt);
+  _world->Step(_stepConf);
 
   for (auto& entity : _entities) {
     entity->update();

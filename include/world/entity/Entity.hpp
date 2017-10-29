@@ -7,7 +7,7 @@
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 
-#include "Box2D/Dynamics/b2Body.h"
+#include "PlayRho/Dynamics/Body.hpp"
 
 #include "world/physic/CollisionBody.hpp"
 
@@ -17,7 +17,7 @@ namespace Entity {
 
 class Entity : public sf::Drawable {
  public:
-  Entity(b2Body* body, const sf::Sprite& sprite);
+  Entity(playrho::Body* body, const sf::Sprite& sprite);
   virtual ~Entity() = default;
   virtual void update() = 0;
   virtual bool moves() const = 0;
@@ -30,13 +30,13 @@ class Entity : public sf::Drawable {
   void rotate(int degrees);
 
  public:
-  const b2Body& body() const;
+  const playrho::Body& body() const;
 
  protected:
   sf::Vector2f _position;
 
  private:
-  b2Body* _body;
+  playrho::Body* _body;
   mutable sf::Sprite _sprite;
 };
 

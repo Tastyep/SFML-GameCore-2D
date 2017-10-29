@@ -16,6 +16,8 @@ class PolygonPartitioner {
  private:
   using Triangle = std::vector<sf::Vector2f>;
   using Polygon = std::vector<sf::Vector2f>;
+  using PolygonIt = Polygon::iterator;
+  using PolygonCit = Polygon::const_iterator;
 
  public:
   PolygonPartitioner() = default;
@@ -24,7 +26,9 @@ class PolygonPartitioner {
 
  private:
   std::vector<Polygon> make(std::vector<Triangle> triangles) const;
-  std::pair<bool, size_t> findDiagonal(const auto& triangles, auto& polygonB, const auto& polygonA, size_t i) const;
+  template <typename PolyItB, typename PolyItA>
+  std::pair<bool, size_t> findDiagonal(const std::vector<Triangle>& triangles, PolyItB& polygonB,
+                                       const PolyItA& polygonA, size_t i) const;
   bool isPolygonConvex(const Polygon& polygon) const;
 
  private:

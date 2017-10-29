@@ -4,7 +4,7 @@ namespace GameCore {
 namespace World {
 namespace Entity {
 
-Player::Player(b2Body* body, const sf::Sprite& sprite)
+Player::Player(playrho::Body* body, const sf::Sprite& sprite)
   : Entity(std::move(body), sprite) {
   for (auto action : kActionTable) {
     _actions.emplace(action, false);

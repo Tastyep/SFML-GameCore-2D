@@ -5,7 +5,9 @@
 #include <vector>
 
 #include <SFML/Graphics/Drawable.hpp>
-#include "Box2D/Box2D.h"
+
+#include "PlayRho/Dynamics/StepConf.hpp"
+#include "PlayRho/Dynamics/World.hpp"
 
 #include "world/Camera.hpp"
 #include "world/ContactListener.hpp"
@@ -25,7 +27,8 @@ class Core : public sf::Drawable {
   bool loadMap(const std::string& file);
 
  private:
-  std::shared_ptr<b2World> _world;
+  std::shared_ptr<playrho::World> _world;
+  playrho::StepConf _stepConf;
   std::unique_ptr<Entity::Factory> _entityFactory;
   ContactListener _contactListener;
   Camera _camera;

@@ -11,7 +11,10 @@
 #include <boost/mpl/pair.hpp>
 #include <boost/mpl/vector.hpp>
 
-#include "Box2D/Box2D.h"
+#include "PlayRho/Dynamics/Body.hpp"
+#include "PlayRho/Dynamics/BodyDef.hpp"
+#include "PlayRho/Dynamics/BodyType.hpp"
+#include "PlayRho/Dynamics/World.hpp"
 
 #include "Action.hpp"
 #include "Tile.hpp"
@@ -42,19 +45,19 @@ class Factory {
       mpl::pair<
         Player,
         mpl::vector<mpl::int_<enum_cast(Tile::PLAYER)>,
-                    mpl::int_<enum_cast(b2_dynamicBody)>>
+                    mpl::int_<enum_cast(playrho::BodyType::Dynamic)>>
       >,
       // Wall
       mpl::pair<
         Wall,
         mpl::vector<mpl::int_<enum_cast(Tile::WALL)>,
-                    mpl::int_<enum_cast(b2_staticBody)>>
+                    mpl::int_<enum_cast(playrho::BodyType::Static)>>
       >,
       // Ball
       mpl::pair<
         Ball,
         mpl::vector<mpl::int_<enum_cast(Tile::BALL)>,
-                    mpl::int_<enum_cast(b2_dynamicBody)>>
+                    mpl::int_<enum_cast(playrho::BodyType::Dynamic)>>
       >
     >;
   // clang-format on
@@ -65,7 +68,8 @@ class Factory {
   template <typename Entity>
   static constexpr Tile TileId = static_cast<Tile>(mpl::at<MapEntry<Entity>, mpl::int_<0>>::type::value);
   template <typename Entity>
-  static constexpr b2BodyType BodyType = static_cast<b2BodyType>(mpl::at<MapEntry<Entity>, mpl::int_<1>>::type::value);
+  static constexpr playrho::BodyType
+    BodyType = static_cast<playrho::BodyType>(mpl::at<MapEntry<Entity>, mpl::int_<1>>::type::value);
 
  private:
   struct MakerBase {
@@ -103,7 +107,7 @@ class Factory {
     , _hitboxManager(std::move(hitboxManager))
     , _actionDispatcher(std::move(actionDispatcher)) {}
 
-  void setWorld(std::shared_ptr<b2World> world) {
+  void setWorld(std::shared_ptr<playrho::World> world) {
     _world = std::move(world);
   }
 
@@ -118,43 +122,30 @@ class Factory {
     auto tileId = TileId<Entity>;
     auto sprite = _tileManager->tile(tileId);
 
-    b2BodyDef bodyDef;
-    bodyDef.type = BodyType<Entity>;
-    bodyDef.position.Set(position.x / kWorldScale, position.y / kWorldScale);
+    playrho::BodyDef bodyDef;
+    bodyDef.UseType(BodyType<Entity>);
+    bodyDef.UseLocation(playrho::Length2D(position.x / kWorldScale, position.y / kWorldScale));
     sprite.setPosition(position);
-    this->changeDataOrigin(sprite);
 
-    b2Body* body(_world->CreateBody(&bodyDef));
+    playrho::Body* body(_world->CreateBody(bodyDef));
 
     auto polyShapes = _hitboxManager->body(tileId);
     for (const auto& polyShape : polyShapes) {
-      b2FixtureDef fixtureDef;
+      const auto shape = std::make_shared<playrho::PolygonShape>();
 
-      fixtureDef.shape = &polyShape;
-      fixtureDef.density = 1;
-      body->CreateFixture(&fixtureDef);
+      *shape = polyShape;
+      shape->SetDensity(1);
+      body->CreateFixture(shape);
     }
 
     return std::make_shared<Entity>(std::move(body), sprite, std::forward<Args>(args)...);
   }
 
  private:
-  void changeDataOrigin(sf::Sprite& sprite) const {
-    // for (auto& bodyPart : body) {
-    //   for (auto& vertice : bodyPart) {
-    //     vertice -= kEntityOrigin;
-    //   }
-    // }
-    // boundingBox.left -= kEntityOrigin.x;
-    // boundingBox.top -= kEntityOrigin.y;
-    // sprite.setOrigin(kEntityOrigin);
-  }
-
- private:
   std::shared_ptr<Ressource::TileManager> _tileManager;
   std::shared_ptr<Hitbox::Manager<Tile>> _hitboxManager;
   std::shared_ptr<Input::Dispatcher<Action>> _actionDispatcher;
-  std::shared_ptr<b2World> _world{ nullptr };
+  std::shared_ptr<playrho::World> _world{ nullptr };
 };
 
 } /* namespace Entity */

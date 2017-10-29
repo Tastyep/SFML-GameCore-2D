@@ -9,7 +9,7 @@ namespace Entity {
 
 class Wall : public Entity {
  public:
-  Wall(b2Body* body, const sf::Sprite& sprite);
+  Wall(playrho::Body* body, const sf::Sprite& sprite);
 
   void update() override;
   bool moves() const override {

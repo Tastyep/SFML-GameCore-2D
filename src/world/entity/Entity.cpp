@@ -3,8 +3,7 @@
 #include <iostream>
 #include <utility>
 
-#include "Box2D/Collision/Shapes/b2PolygonShape.h"
-#include "Box2D/Dynamics/b2Fixture.h"
+#include "PlayRho/Common/Velocity.hpp"
 
 #include "GameConstant.hpp"
 
@@ -12,29 +11,29 @@ namespace GameCore {
 namespace World {
 namespace Entity {
 
-Entity::Entity(b2Body* body, const sf::Sprite& sprite)
-  : _body(std::move(body))
+Entity::Entity(playrho::Body* body, const sf::Sprite& sprite)
+  : _body(body)
   , _sprite(sprite) {
   _body->SetUserData(this);
 }
 
 void Entity::draw(sf::RenderTarget& target, sf::RenderStates) const {
-  const auto wPosition = _body->GetPosition();
+  const auto wPosition = _body->GetLocation();
   const auto bodyAngle = _body->GetAngle();
 
-  _sprite.setPosition(sf::Vector2f(wPosition.x * kWorldScale, wPosition.y * kWorldScale));
+  _sprite.setPosition(sf::Vector2f(wPosition[0] * kWorldScale, wPosition[1] * kWorldScale));
   _sprite.setRotation(bodyAngle);
 
   target.draw(_sprite);
 }
 
 void Entity::move(int direction) {
-  float wAngle = _body->GetAngle();
-  float force = direction * 5;
-  b2Vec2 wDirection = { std::cos(wAngle) * force, std::sin(wAngle) * force };
+  auto bodyAngle = _body->GetAngle();
+  auto bodyPos = _body->GetLocation();
 
-  std::cout << "wAngle: " << wDirection.x << " " << wDirection.y << std::endl;
-  _body->SetLinearVelocity(wDirection);
+  bodyPos[0] += 0.1f * direction;
+  bodyPos[1] += 0.1f * direction;
+  _body->SetTransform(bodyPos, bodyAngle);
 }
 
 void Entity::rotate(int angle) {
@@ -42,10 +41,10 @@ void Entity::rotate(int angle) {
   std::cout << "bodyAngle: " << bodyAngle << std::endl;
   bodyAngle += angle;
 
-  _body->SetTransform(_body->GetPosition(), bodyAngle);
+  _body->SetTransform(_body->GetLocation(), bodyAngle);
 }
 
-const b2Body& Entity::body() const {
+const playrho::Body& Entity::body() const {
   return *_body;
 }
 
