@@ -1,5 +1,6 @@
 #include "world/entity/Entity.hpp"
 
+#include <cassert>
 #include <iostream>
 #include <utility>
 
@@ -16,6 +17,15 @@ Entity::Entity(playrho::Body* body, const sf::Sprite& sprite)
   , _sprite(sprite) {
   _body->SetUserData(this);
 }
+
+void Entity::dispatchContact(Entity& entity, const ContactHandler& handler) {
+  // Improve assert message by using the entity name.
+  assert("Missing contact dispatcher");
+}
+
+void Entity::dispatchContact(Player&, const ContactHandler&) {}
+void Entity::dispatchContact(Wall&, const ContactHandler&) {}
+void Entity::dispatchContact(Ball&, const ContactHandler&) {}
 
 void Entity::draw(sf::RenderTarget& target, sf::RenderStates) const {
   const auto wPosition = _body->GetLocation();

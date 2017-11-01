@@ -1,5 +1,8 @@
 #include "world/entity/Player.hpp"
 
+#include "world/entity/Ball.hpp"
+#include "world/entity/Wall.hpp"
+
 namespace GameCore {
 namespace World {
 namespace Entity {
@@ -9,6 +12,18 @@ Player::Player(playrho::Body* body, const sf::Sprite& sprite)
   for (auto action : kActionTable) {
     _actions.emplace(action, false);
   }
+}
+
+void Player::dispatchContact(const ContactHandler& handler, Entity& entity) {
+  entity.dispatchContact(*this, handler);
+}
+
+void Player::dispatchContact(Ball& ball, const ContactHandler& handler) {
+  handler.handle(*this, ball);
+}
+
+void Player::dispatchContact(Wall& wall, const ContactHandler& handler) {
+  handler.handle(*this, wall);
 }
 
 void Player::update() {
@@ -28,6 +43,10 @@ void Player::update() {
 
 void Player::handle(Action action) {
   _actions[action] = true;
+}
+
+const std::string& Player::name() const {
+  return _name;
 }
 
 } /* namespace Entity */

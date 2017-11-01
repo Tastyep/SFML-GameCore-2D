@@ -4,7 +4,7 @@
 #include "PlayRho/Dynamics/Contacts/Contact.hpp"
 #include "PlayRho/Dynamics/WorldCallbacks.hpp"
 
-#include "world/ContactDispatcher.hpp"
+#include "world/ContactHandler.hpp"
 
 namespace GameCore {
 namespace World {
@@ -19,7 +19,7 @@ class ContactListener : public playrho::ContactListener {
                  playrho::ContactListener::iteration_type it) override;
 
  private:
-  ContactDispatcher _contactDispatcher;
+  ContactHandler _contactHandler;
 };
 
 } /* namespace World */

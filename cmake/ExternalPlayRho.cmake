@@ -7,7 +7,6 @@ set(PLAYRHO_TARGET playrho)
 set(PLAYRHO_ROOT_DIR ${PROJECT_SOURCE_DIR}/${LIB_DIR}/${PLAYRHO_DIR})
 set(PLAYRHO_SOURCE_DIR ${PLAYRHO_ROOT_DIR}/src/${PLAYRHO_TARGET}/PlayRho)
 set(PLAYRHO_BINARY_DIR ${PLAYRHO_ROOT_DIR}/src/${PLAYRHO_TARGET}-build)
-set(PLAYRHO_INTERNAL_DIR PlayRho)
 
 # Configure external project
 ExternalProject_Add(

@@ -11,10 +11,15 @@ class Ball : public Entity {
  public:
   Ball(playrho::Body* body, const sf::Sprite& sprite);
 
+  void dispatchContact(const ContactHandler& handler, Entity& entity) override;
+  void dispatchContact(Player& player, const ContactHandler& handler);
+  void dispatchContact(Wall& wall, const ContactHandler& handler);
+
   void update() override;
-  bool moves() const override {
-    return true;
-  }
+  const std::string& name() const;
+
+ private:
+  const std::string _name = "Ball";
 };
 
 } /* namespace Entity */

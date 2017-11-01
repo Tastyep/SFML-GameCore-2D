@@ -29,12 +29,16 @@ class Player : public Entity, public Input::ActionHandler<Action> {
  public:
   Player(playrho::Body* body, const sf::Sprite& sprite);
 
-  void update() override;
-  bool moves() const override {
-    return true;
-  }
+  void dispatchContact(const ContactHandler& handler, Entity& entity) override;
+  void dispatchContact(Ball& ball, const ContactHandler& handler);
+  void dispatchContact(Wall& wall, const ContactHandler& handler);
 
+  void update() override;
   void handle(Action action);
+  const std::string& name() const;
+
+ private:
+  const std::string _name = "Player";
 
  private:
   float kRotationAngle = 5;
