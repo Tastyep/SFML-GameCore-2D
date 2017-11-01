@@ -24,7 +24,7 @@ message(STATUS "[Compiler] Using ${CMAKE_CXX_COMPILER_ID}-${CMAKE_CXX_COMPILER_V
 # Resolve dependencies
 include(ResolveSFML)
 include(ResolvePlayRho)
-
+include(ResolveHana)
 
 # Third party include directories
 include_directories(SYSTEM ${EXTERNAL_INCLUDE_DIRS})
