@@ -4,13 +4,6 @@
 #include <memory>
 #include <utility>
 
-#include <boost/mpl/at.hpp>
-#include <boost/mpl/int.hpp>
-#include <boost/mpl/list.hpp>
-#include <boost/mpl/map.hpp>
-#include <boost/mpl/pair.hpp>
-#include <boost/mpl/vector.hpp>
-
 #include "PlayRho/Dynamics/Body.hpp"
 #include "PlayRho/Dynamics/BodyDef.hpp"
 #include "PlayRho/Dynamics/BodyType.hpp"
@@ -30,47 +23,19 @@
 #include "world/entity/Wall.hpp"
 #include "world/physic/CollisionBody.hpp"
 
-namespace mpl = boost::mpl;
+#include "boost/hana/at_key.hpp"
+#include "boost/hana/integral_constant.hpp"
+#include "boost/hana/map.hpp"
+#include "boost/hana/pair.hpp"
+#include "boost/hana/type.hpp"
+
+namespace hana = boost::hana;
 
 namespace GameCore {
 namespace World {
 namespace Entity {
 
 class Factory {
- private:
-  // clang-format off
-  using EntityMap =
-    mpl::map<
-      // Player
-      mpl::pair<
-        Player,
-        mpl::vector<mpl::int_<enum_cast(Tile::PLAYER)>,
-                    mpl::int_<enum_cast(playrho::BodyType::Dynamic)>>
-      >,
-      // Wall
-      mpl::pair<
-        Wall,
-        mpl::vector<mpl::int_<enum_cast(Tile::WALL)>,
-                    mpl::int_<enum_cast(playrho::BodyType::Static)>>
-      >,
-      // Ball
-      mpl::pair<
-        Ball,
-        mpl::vector<mpl::int_<enum_cast(Tile::BALL)>,
-                    mpl::int_<enum_cast(playrho::BodyType::Dynamic)>>
-      >
-    >;
-  // clang-format on
-
-  template <typename Entity>
-  using MapEntry = typename mpl::at<EntityMap, Entity>::type;
-
-  template <typename Entity>
-  static constexpr Tile TileId = static_cast<Tile>(mpl::at<MapEntry<Entity>, mpl::int_<0>>::type::value);
-  template <typename Entity>
-  static constexpr playrho::BodyType
-    BodyType = static_cast<playrho::BodyType>(mpl::at<MapEntry<Entity>, mpl::int_<1>>::type::value);
-
  private:
   struct MakerBase {
     MakerBase(const Factory& factory)
@@ -117,13 +82,33 @@ class Factory {
   }
 
  private:
+  template <typename Entity>
+  constexpr Tile tile() const {
+    const auto tileIds = hana::make_map(hana::make_pair(hana::type_c<Player>, hana::int_c<enum_cast(Tile::PLAYER)>),
+                                        hana::make_pair(hana::type_c<Ball>, hana::int_c<enum_cast(Tile::BALL)>),
+                                        hana::make_pair(hana::type_c<Wall>, hana::int_c<enum_cast(Tile::WALL)>));
+
+    return static_cast<Tile>(hana::value(tileIds[hana::type_c<Entity>]));
+  }
+
+  template <typename Entity>
+  constexpr playrho::BodyType bodyType() const {
+    const auto bodies =
+      hana::make_map(hana::make_pair(hana::type_c<Player>, hana::int_c<enum_cast(playrho::BodyType::Dynamic)>),
+                     hana::make_pair(hana::type_c<Ball>, hana::int_c<enum_cast(playrho::BodyType::Dynamic)>),
+                     hana::make_pair(hana::type_c<Wall>, hana::int_c<enum_cast(playrho::BodyType::Static)>));
+
+    return static_cast<playrho::BodyType>(hana::value(bodies[hana::type_c<Entity>]));
+  }
+
+ private:
   template <typename Entity, typename... Args>
   std::shared_ptr<Entity> init(const sf::Vector2f& position, Args... args) const {
-    auto tileId = TileId<Entity>;
+    auto tileId = tile<Entity>();
     auto sprite = _tileManager->tile(tileId);
 
     playrho::BodyDef bodyDef;
-    bodyDef.UseType(BodyType<Entity>);
+    bodyDef.UseType(bodyType<Entity>());
     bodyDef.UseLocation(playrho::Length2D(position.x / kWorldScale, position.y / kWorldScale));
     sprite.setPosition(position);
 
