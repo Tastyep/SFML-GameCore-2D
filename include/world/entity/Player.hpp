@@ -15,33 +15,26 @@ namespace Entity {
 
 class Player : public Entity, public Input::ActionHandler<Action> {
  public:
-  // clang-format off
- const std::initializer_list<Action> kActionTable = {
-    Action::USE,
-    Action::LEFT,
-    Action::RIGHT,
-    Action::UP,
-    Action::DOWN,
-    Action::JUMP,
+  static constexpr std::initializer_list<Action> actionTable = {
+    Action::USE, Action::LEFT, Action::RIGHT, Action::UP, Action::DOWN, Action::JUMP,
   };
-  // clang-format on
 
  public:
   Player(playrho::Body* body, const sf::Sprite& sprite);
 
   void dispatchContact(const ContactHandler& handler, Entity& entity) override;
-  void dispatchContact(Ball& ball, const ContactHandler& handler);
-  void dispatchContact(Wall& wall, const ContactHandler& handler);
+  void dispatchContact(Ball& ball, const ContactHandler& handler) override;
+  void dispatchContact(Wall& wall, const ContactHandler& handler) override;
 
   void update() override;
-  void handle(Action action);
-  const std::string& name() const;
+  void handle(Action action) override;
+  const std::string& name() const override;
 
  private:
   const std::string _name = "Player";
 
  private:
-  float kRotationAngle = 5;
+  float kRotationAngle = 10;
 
  private:
   std::unordered_map<Action, bool> _actions;

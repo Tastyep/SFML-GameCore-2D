@@ -6,7 +6,9 @@
 
 #include "PlayRho/Common/Velocity.hpp"
 
-#include "GameConstant.hpp"
+#include "world/WorldConstant.hpp"
+
+#include "Util.hpp"
 
 namespace GameCore {
 namespace World {
@@ -18,7 +20,7 @@ Entity::Entity(playrho::Body* body, const sf::Sprite& sprite)
   _body->SetUserData(this);
 }
 
-void Entity::dispatchContact(Entity& entity, const ContactHandler& handler) {
+void Entity::dispatchContact(Entity&, const ContactHandler&) {
   // Improve assert message by using the entity name.
   assert("Missing contact dispatcher");
 }
@@ -31,27 +33,24 @@ void Entity::draw(sf::RenderTarget& target, sf::RenderStates) const {
   const auto wPosition = _body->GetLocation();
   const auto bodyAngle = _body->GetAngle();
 
-  _sprite.setPosition(sf::Vector2f(wPosition[0] * kWorldScale, wPosition[1] * kWorldScale));
+  _sprite.setPosition(sf::Vector2f(wPosition[0], wPosition[1]) * kPixelScale + kSpriteOrigin);
   _sprite.setRotation(bodyAngle);
 
   target.draw(_sprite);
 }
 
 void Entity::move(int direction) {
-  auto bodyAngle = _body->GetAngle();
-  auto bodyPos = _body->GetLocation();
+  const auto bodyAngle = _body->GetAngle();
+  const auto dirVec = playrho::Length2D{ std::cos(bodyAngle * rad), std::sin(bodyAngle * rad) } * direction;
 
-  bodyPos[0] += 0.1f * direction;
-  bodyPos[1] += 0.1f * direction;
-  _body->SetTransform(bodyPos, bodyAngle);
+  SetLinearVelocity(*_body, playrho::LinearVelocity2D{ 7.5f * dirVec[0], 7.5f * dirVec[1] });
 }
 
 void Entity::rotate(int angle) {
-  float bodyAngle = _body->GetAngle();
-  std::cout << "bodyAngle: " << bodyAngle << std::endl;
-  bodyAngle += angle;
+  auto cuAngle = static_cast<int>(_sprite.getRotation());
 
-  _body->SetTransform(_body->GetLocation(), bodyAngle);
+  cuAngle = (360 + cuAngle + angle) % 360;
+  RotateAboutLocalPoint(*_body, cuAngle, playrho::Length2D{ 0, 0 });
 }
 
 const playrho::Body& Entity::body() const {

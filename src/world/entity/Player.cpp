@@ -7,9 +7,11 @@ namespace GameCore {
 namespace World {
 namespace Entity {
 
+constexpr std::initializer_list<Action> Player::actionTable;
+
 Player::Player(playrho::Body* body, const sf::Sprite& sprite)
   : Entity(std::move(body), sprite) {
-  for (auto action : kActionTable) {
+  for (auto action : actionTable) {
     _actions.emplace(action, false);
   }
 }
@@ -28,7 +30,9 @@ void Player::dispatchContact(Wall& wall, const ContactHandler& handler) {
 
 void Player::update() {
   auto moveSide = _actions[Action::UP] - _actions[Action::DOWN];
-  auto rotateSide = _actions[Action::LEFT] - _actions[Action::RIGHT];
+  auto rotateSide = _actions[Action::RIGHT] - _actions[Action::LEFT];
+
+  _body->SetVelocity(playrho::Velocity{ playrho::LinearVelocity2D{ 0, 0 }, playrho::GetAngularVelocity(*_body) });
 
   if (moveSide != 0) {
     this->move(moveSide);
@@ -36,7 +40,7 @@ void Player::update() {
   if (rotateSide != 0) {
     this->rotate(kRotationAngle * rotateSide);
   }
-  for (auto action : kActionTable) {
+  for (const auto action : actionTable) {
     _actions[action] = false;
   }
 }

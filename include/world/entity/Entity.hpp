@@ -52,7 +52,7 @@ class Entity : public sf::Drawable {
  protected:
   sf::Vector2f _position;
 
- private:
+ public:
   playrho::Body* _body;
   mutable sf::Sprite _sprite;
 };

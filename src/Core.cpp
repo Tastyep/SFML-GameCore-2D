@@ -56,7 +56,6 @@ void Core::runGameLoop() {
          ++loopCount) {
       _world->update();
       nextGameTick += kTimeStepDuration;
-      ++loopCount;
     }
 
     // Checks the key pressed and dispatches the associated actions.

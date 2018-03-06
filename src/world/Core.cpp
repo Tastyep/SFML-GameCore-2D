@@ -15,18 +15,18 @@ namespace World {
 Core::Core(std::unique_ptr<Entity::Factory> entityFactory, const sf::FloatRect& viewRect)
   : _entityFactory(std::move(entityFactory))
   , _camera(viewRect) {
-  _world = std::make_shared<playrho::World>(playrho::WorldDef{ playrho::Vec2{ 0, kGravity } });
+  _world = std::make_shared<playrho::World>(playrho::WorldDef{}.UseGravity(playrho::LinearAcceleration2D(0, 0)));
   _entityFactory->setWorld(_world);
   _world->SetContactListener(&_contactListener);
   _stepConf.SetTime(kTimeStep);
 }
 
 void Core::update() {
-  _world->Step(_stepConf);
-
   for (auto& entity : _entities) {
     entity->update();
   }
+
+  _world->Step(_stepConf);
 }
 
 void Core::draw(sf::RenderTarget& target, sf::RenderStates) const {
@@ -58,17 +58,18 @@ bool Core::loadMap(const std::string& filePath) {
       Tile id = static_cast<Tile>(std::stoi(number));
       std::shared_ptr<Entity::Entity> entity;
       auto screenPos = sf::Vector2f(static_cast<float>(x), static_cast<float>(y)) * static_cast<float>(kTileSize);
+      auto sp = playrho::Length2D(screenPos.x, screenPos.y);
 
       // clang-format off
       switch (id) {
       case Tile::PLAYER:
-        entity = _entityFactory->create<Entity::Player>(screenPos);
+        entity = _entityFactory->create<Entity::Player>(sp);
         break;
       case Tile::WALL:
-        entity = _entityFactory->create<Entity::Wall>(screenPos);
+        entity = _entityFactory->create<Entity::Wall>(sp);
         break;
       case Tile::BALL:
-        entity = _entityFactory->create<Entity::Ball>(screenPos);
+        entity = _entityFactory->create<Entity::Ball>(sp);
         break;
       default:
         std::cerr << "Error | line: " << y << " | c: " << x << " | Invalid tild id: " << enum_cast(id) << "."

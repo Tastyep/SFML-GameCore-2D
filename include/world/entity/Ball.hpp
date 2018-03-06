@@ -12,11 +12,11 @@ class Ball : public Entity {
   Ball(playrho::Body* body, const sf::Sprite& sprite);
 
   void dispatchContact(const ContactHandler& handler, Entity& entity) override;
-  void dispatchContact(Player& player, const ContactHandler& handler);
-  void dispatchContact(Wall& wall, const ContactHandler& handler);
+  void dispatchContact(Player& player, const ContactHandler& handler) override;
+  void dispatchContact(Wall& wall, const ContactHandler& handler) override;
 
   void update() override;
-  const std::string& name() const;
+  const std::string& name() const override;
 
  private:
   const std::string _name = "Ball";
