@@ -9,7 +9,7 @@
 
 #include "GameConstant.hpp"
 
-#include "configParser/BindModule.hpp"
+#include "configParser/detail/BindModule.hpp"
 #include "input/Manager.hpp"
 #include "util/EnumCast.hpp"
 #include "world/entity/Factory.hpp"
@@ -80,8 +80,9 @@ void Core::parseConfigFile(const std::string& file) {
   using Key = sf::Keyboard::Key;
   _configParser.parse(file);
 
-  auto bindModule = std::static_pointer_cast<ConfigParser::BindModule<Key, Action>>(_configParser.module("bind"));
-  auto bindMapping = bindModule->mapping();
+  const auto bindModule =
+    std::static_pointer_cast<ConfigParser::Detail::BindModule<Key, Action>>(_configParser.module("bind"));
+  const auto bindMapping = bindModule->mapping();
 
   // Bind keys on actions.
   for (const auto& mapping : bindMapping) {
@@ -104,7 +105,7 @@ bool Core::loadRessources() {
 
 void Core::registerParserModules() {
   using Key = sf::Keyboard::Key;
-  auto bindModule = std::make_shared<ConfigParser::BindModule<Key, Action>>();
+  auto bindModule = std::make_shared<ConfigParser::Detail::BindModule<Key, Action>>();
 
   bindModule->configureActions({
     { "Escape", Action::ESCAPE },

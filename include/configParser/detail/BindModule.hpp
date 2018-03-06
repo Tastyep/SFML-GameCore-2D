@@ -8,6 +8,7 @@
 
 namespace GameCore {
 namespace ConfigParser {
+namespace Detail {
 
 template <typename Key, typename Action>
 class BindModule : public ParsingModule, public std::enable_shared_from_this<BindModule<Key, Action>> {
@@ -69,6 +70,7 @@ class BindModule : public ParsingModule, public std::enable_shared_from_this<Bin
   std::unordered_map<Key, Action> _bindMapping;
 };
 
+} /* namespace Detail */
 } /* namespace ConfigParser */
 } /* namespace GameCore */
 
