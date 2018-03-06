@@ -1,7 +1,7 @@
 message(STATUS "[PlayRho] Resolving external dependency")
 
 # Define PlayRho version
-set(PLAYRHO_VERSION 2.3.0)
+set(PLAYRHO_VERSION 0.9.0)
 set(PLAYRHO_DIR PlayRho)
 
 include(ExternalPlayRho)

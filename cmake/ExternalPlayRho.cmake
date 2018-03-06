@@ -13,7 +13,7 @@ ExternalProject_Add(
   ${PLAYRHO_TARGET}
   PREFIX ${PLAYRHO_ROOT_DIR}
   GIT_REPOSITORY https://github.com/louis-langholtz/PlayRho
-  GIT_TAG master
+  GIT_TAG v${PLAYRHO_VERSION}
   GIT_PROGRESS 1
   TIMEOUT 60
   SOURCE_DIR ${PLAYRHO_SOURCE_DIR}
