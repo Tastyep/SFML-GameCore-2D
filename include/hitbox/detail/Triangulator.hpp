@@ -9,6 +9,7 @@
 
 namespace GameCore {
 namespace Hitbox {
+namespace Detail {
 
 class Triangulator {
  private:
@@ -53,6 +54,7 @@ class Triangulator {
   }
 };
 
+} /* namespace Detail */
 } /* namespace Hitbox */
 } /* namespace GameCore */
 

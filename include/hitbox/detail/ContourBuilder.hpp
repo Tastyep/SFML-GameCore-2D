@@ -12,6 +12,7 @@
 
 namespace GameCore {
 namespace Hitbox {
+namespace Detail {
 
 class ContourBuilder {
  private:
@@ -56,6 +57,7 @@ class ContourBuilder {
   mutable sf::IntRect _bound;
 };
 
+} /* namespace Detail */
 } /* namespace Hitbox */
 } /* namespace GameCore */
 

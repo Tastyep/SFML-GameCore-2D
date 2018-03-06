@@ -7,10 +7,11 @@
 
 #include <SFML/System/Vector2.hpp>
 
-#include "hitbox/Triangulator.hpp"
+#include "hitbox/detail/Triangulator.hpp"
 
 namespace GameCore {
 namespace Hitbox {
+namespace Detail {
 
 class PolygonPartitioner {
  private:
@@ -39,6 +40,7 @@ class PolygonPartitioner {
   mutable size_t _polygonBSize;
 };
 
+} /* namespace Detail */
 } /* namespace Hitbox */
 } /* namespace GameCore */
 

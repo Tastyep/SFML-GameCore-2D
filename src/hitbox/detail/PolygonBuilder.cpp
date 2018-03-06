@@ -1,4 +1,4 @@
-#include "hitbox/PolygonBuilder.hpp"
+#include "hitbox/detail/PolygonBuilder.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -6,6 +6,7 @@
 
 namespace GameCore {
 namespace Hitbox {
+namespace Detail {
 
 std::vector<sf::Vector2f> PolygonBuilder::make(const std::vector<sf::Vector2i>& contour, size_t accuracy) const {
   std::vector<sf::Vector2f> polygon;
@@ -94,5 +95,6 @@ float PolygonBuilder::computeAngle(const sf::Vector2f& v1, const sf::Vector2f& v
   return std::acos(dotProduct / norme) * (180.f / M_PI);
 }
 
+} /* namespace Detail */
 } /* namespace Hitbox */
 } /* namespace GameCore */

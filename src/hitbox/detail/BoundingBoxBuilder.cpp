@@ -1,9 +1,10 @@
-#include "hitbox/BoundingBoxBuilder.hpp"
+#include "hitbox/detail/BoundingBoxBuilder.hpp"
 
 #include <algorithm>
 
 namespace GameCore {
 namespace Hitbox {
+namespace Detail {
 
 sf::FloatRect BoundingBoxBuilder::make(const std::vector<sf::Vector2f>& polygon) const {
   sf::Vector2f tl = polygon.front(), br = polygon.front();
@@ -18,5 +19,6 @@ sf::FloatRect BoundingBoxBuilder::make(const std::vector<sf::Vector2f>& polygon)
   return sf::FloatRect{ tl.x, tl.y, br.x - tl.x, br.y - tl.y };
 }
 
+} /* namespace Detail */
 } /* namespace Hitbox */
 } /* namespace GameCore */

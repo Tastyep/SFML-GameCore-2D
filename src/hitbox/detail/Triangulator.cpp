@@ -1,10 +1,11 @@
-#include "hitbox/Triangulator.hpp"
+#include "hitbox/detail/Triangulator.hpp"
 
 #include <cmath>
 #include <tuple>
 
 namespace GameCore {
 namespace Hitbox {
+namespace Detail {
 
 std::vector<std::vector<sf::Vector2f>> Triangulator::convert(std::vector<sf::Vector2f> polygon) const {
   std::vector<Vertex> vertices;
@@ -121,5 +122,6 @@ sf::Vector2f Triangulator::normalize(const sf::Vector2f& p) const {
                   : (static_cast<sf::Vector2f>(p) / n);
 }
 
+} /* namespace Detail */
 } /* namespace Hitbox */
 } /* namespace GameCore */

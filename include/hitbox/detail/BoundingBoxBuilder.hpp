@@ -8,12 +8,14 @@
 
 namespace GameCore {
 namespace Hitbox {
+namespace Detail {
 
 class BoundingBoxBuilder {
  public:
   sf::FloatRect make(const std::vector<sf::Vector2f>& polygon) const;
 };
 
+} /* namespace Detail */
 } /* namespace Hitbox */
 } /* namespace GameCore */
 

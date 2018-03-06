@@ -6,11 +6,11 @@
 
 #include "world/WorldConstant.hpp"
 
-#include "hitbox/BoundingBoxBuilder.hpp"
-#include "hitbox/ContourBuilder.hpp"
-#include "hitbox/PolygonBuilder.hpp"
-#include "hitbox/PolygonPartitioner.hpp"
+#include "hitbox/detail/BoundingBoxBuilder.hpp"
+#include "hitbox/detail/ContourBuilder.hpp"
 #include "hitbox/detail/CoordinateTransformer.hpp"
+#include "hitbox/detail/PolygonBuilder.hpp"
+#include "hitbox/detail/PolygonPartitioner.hpp"
 
 #include "PlayRho/Collision/Shapes/PolygonShape.hpp"
 #include "PlayRho/Common/VertexSet.hpp"
@@ -70,10 +70,10 @@ class Manager {
   }
 
  private:
-  ContourBuilder _contourBuilder;
-  PolygonBuilder _polygonBuilder;
-  BoundingBoxBuilder _boundingBoxBuilder;
-  PolygonPartitioner _polygonPartitioner;
+  Detail::ContourBuilder _contourBuilder;
+  Detail::PolygonBuilder _polygonBuilder;
+  Detail::BoundingBoxBuilder _boundingBoxBuilder;
+  Detail::PolygonPartitioner _polygonPartitioner;
 
  private:
   std::unordered_map<Identifier, std::vector<playrho::PolygonShape>> _hitboxes;

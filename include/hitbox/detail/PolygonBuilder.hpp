@@ -7,6 +7,7 @@
 
 namespace GameCore {
 namespace Hitbox {
+namespace Detail {
 
 class PolygonBuilder {
  private:
@@ -27,6 +28,7 @@ class PolygonBuilder {
   float computeAngle(const sf::Vector2f& v1, const sf::Vector2f& v2) const;
 };
 
+} /* namespace Detail */
 } /* namespace Hitbox */
 } /* namespace GameCore */
 

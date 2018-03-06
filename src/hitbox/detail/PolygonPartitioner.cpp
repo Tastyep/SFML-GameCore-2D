@@ -1,4 +1,4 @@
-#include "hitbox/PolygonPartitioner.hpp"
+#include "hitbox/detail/PolygonPartitioner.hpp"
 
 #include <tuple>
 
@@ -6,6 +6,7 @@
 
 namespace GameCore {
 namespace Hitbox {
+namespace Detail {
 
 std::vector<std::vector<sf::Vector2f>> PolygonPartitioner::make(std::vector<sf::Vector2f> polygon) const {
   std::cout << "isPolygonConvex: " << this->isPolygonConvex(polygon) << std::endl;
@@ -105,5 +106,6 @@ bool PolygonPartitioner::isPolygonConvex(const Polygon& polygon) const {
   return (i == polygonSize);
 }
 
+} /* namespace Detail */
 } /* namespace Hitbox */
 } /* namespace GameCore */
