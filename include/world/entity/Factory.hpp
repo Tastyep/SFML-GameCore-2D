@@ -13,7 +13,7 @@
 #include "Tile.hpp"
 
 #include "hitbox/Manager.hpp"
-#include "input/ActionDispatcher.hpp"
+#include "input/Dispatcher.hpp"
 #include "ressource/TileManager.hpp"
 #include "util/EnumCast.hpp"
 

@@ -1,5 +1,5 @@
-#ifndef GAME_CORE_INPUT_KEY_STATE_RECORDER_HPP
-#define GAME_CORE_INPUT_KEY_STATE_RECORDER_HPP
+#ifndef GAME_CORE_INPUT_DETAIL_KEY_STATE_RECORDER_HPP
+#define GAME_CORE_INPUT_DETAIL_KEY_STATE_RECORDER_HPP
 
 #include <vector>
 
@@ -7,6 +7,7 @@
 
 namespace GameCore {
 namespace Input {
+namespace Detail {
 
 class KeyStateRecorder {
  public:
@@ -29,6 +30,7 @@ class KeyStateRecorder {
   std::vector<KeyState> _keys;
 };
 
+} /* namespace Detail */
 } /* namespace Input */
 } /* namespace GameCore */
 

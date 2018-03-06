@@ -1,32 +1,28 @@
-#ifndef GAME_CORE_INPUT_ACTION_DISPATCHER_HPP
-#define GAME_CORE_INPUT_ACTION_DISPATCHER_HPP
+#ifndef GAME_CORE_INPUT_ACTION_DISPATCHER_IMPL_HPP
+#define GAME_CORE_INPUT_ACTION_DISPATCHER_IMPL_HPP
 
-#include <initializer_list>
-#include <memory>
 #include <unordered_map>
-#include <vector>
 
-#include "input/ActionHandler.hpp"
+#include "input/Dispatcher.hpp"
 
 namespace GameCore {
 namespace Input {
+namespace Detail {
 
 template <typename Action>
-class Dispatcher {
+class ActionDispatcher : public Input::Dispatcher<Action> {
  public:
-  Dispatcher() = default;
-
-  void registerHandler(std::initializer_list<Action> actions, std::shared_ptr<ActionHandler<Action>> handler) {
+  void registerHandler(std::initializer_list<Action> actions, std::shared_ptr<ActionHandler<Action>> handler) override {
     for (const auto& action : actions) {
       this->registerHandler(action, handler);
     }
   }
 
-  void registerHandler(Action action, std::shared_ptr<ActionHandler<Action>> handler) {
+  void registerHandler(Action action, std::shared_ptr<ActionHandler<Action>> handler) override {
     _handlers[action].emplace_back(std::move(handler));
   }
 
-  void dispatch(Action action) const {
+  void dispatch(Action action) const override {
     auto it = _handlers.find(action);
 
     if (it != _handlers.end()) {
@@ -40,6 +36,7 @@ class Dispatcher {
   std::unordered_map<Action, std::vector<std::shared_ptr<ActionHandler<Action>>>> _handlers;
 };
 
+} /* namespace Detail */
 } /* namespace Input */
 } /* namespace GameCore */
 

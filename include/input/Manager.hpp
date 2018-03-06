@@ -2,10 +2,11 @@
 #define GAME_CORE_INPUT_MANAGER_HPP
 
 #include <memory>
+#include <utility>
 
-#include "input/ActionDispatcher.hpp"
-#include "input/KeyMapper.hpp"
-#include "input/KeyStateRecorder.hpp"
+#include "input/Dispatcher.hpp"
+#include "input/detail/KeyMapper.hpp"
+#include "input/detail/KeyStateRecorder.hpp"
 
 namespace GameCore {
 namespace Input {
@@ -13,8 +14,8 @@ namespace Input {
 template <typename Action>
 class Manager {
  public:
-  Manager()
-    : _dispatcher(std::make_shared<Dispatcher<Action>>()) {}
+  explicit Manager(std::shared_ptr<Dispatcher<Action>> dispatcher)
+    : _dispatcher(std::move(dispatcher)) {}
 
   void run() {
     _keyStateRecorder.checkKeys();
@@ -46,8 +47,8 @@ class Manager {
   }
 
  private:
-  KeyStateRecorder _keyStateRecorder;
-  KeyMapper<Action> _keyMapper;
+  Detail::KeyStateRecorder _keyStateRecorder;
+  Detail::KeyMapper<Action> _keyMapper;
   std::shared_ptr<Dispatcher<Action>> _dispatcher;
 };
 } /* namespace Input */

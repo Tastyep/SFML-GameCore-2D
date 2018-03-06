@@ -9,15 +9,20 @@
 
 #include "GameConstant.hpp"
 
-#include "configParser/detail/BindModule.hpp"
-#include "input/Manager.hpp"
-#include "util/EnumCast.hpp"
 #include "world/entity/Factory.hpp"
+
+#include "configParser/detail/BindModule.hpp"
+
+#include "input/Manager.hpp"
+#include "input/detail/ActionDispatcher.hpp"
+
+#include "util/EnumCast.hpp"
 
 namespace GameCore {
 
 Core::Core()
-  : _tileManager(std::make_shared<Ressource::TileManager>())
+  : _inputManager(std::make_shared<Input::Detail::ActionDispatcher<Action>>())
+  , _tileManager(std::make_shared<Ressource::TileManager>())
   , _hitboxManager(std::make_shared<Hitbox::Manager<Tile>>()) {
   auto entityFactory =
     std::make_unique<World::Entity::Factory>(_tileManager, _hitboxManager, _inputManager.dispatcher());

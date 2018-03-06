@@ -1,5 +1,5 @@
-#ifndef GAME_CORE_HITBOX_POLYGON_PARTITIONER_HPP
-#define GAME_CORE_HITBOX_POLYGON_PARTITIONER_HPP
+#ifndef GAME_CORE_HITBOX_DETAIL_POLYGON_PARTITIONER_HPP
+#define GAME_CORE_HITBOX_DETAIL_POLYGON_PARTITIONER_HPP
 
 #include <stddef.h>
 #include <utility>
@@ -21,8 +21,6 @@ class PolygonPartitioner {
   using PolygonCit = Polygon::const_iterator;
 
  public:
-  PolygonPartitioner() = default;
-
   std::vector<std::vector<sf::Vector2f>> make(std::vector<sf::Vector2f> polygon) const;
 
  private:

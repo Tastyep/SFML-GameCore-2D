@@ -1,5 +1,5 @@
-#ifndef GAME_CORE_INPUT_KEY_MAPPER_HPP
-#define GAME_CORE_INPUT_KEY_MAPPER_HPP
+#ifndef GAME_CORE_INPUT_DETAIL_KEY_MAPPER_HPP
+#define GAME_CORE_INPUT_DETAIL_KEY_MAPPER_HPP
 
 #include <cassert>
 #include <unordered_map>
@@ -8,6 +8,7 @@
 
 namespace GameCore {
 namespace Input {
+namespace Detail {
 
 template <typename Action>
 class KeyMapper {
@@ -31,6 +32,7 @@ class KeyMapper {
   std::unordered_map<sf::Keyboard::Key, Action> _keyMapper;
 };
 
+} /* namespace Detail */
 } /* namespace Input */
 } /* namespace GameCore */
 

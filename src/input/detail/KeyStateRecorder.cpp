@@ -1,9 +1,10 @@
-#include "input/KeyStateRecorder.hpp"
+#include "input/detail/KeyStateRecorder.hpp"
 
 #include <algorithm>
 
 namespace GameCore {
 namespace Input {
+namespace Detail {
 
 void KeyStateRecorder::observeKey(sf::Keyboard::Key keyCode) {
   if (std::find_if(_keys.begin(), _keys.end(),                                 //
@@ -40,5 +41,6 @@ std::vector<sf::Keyboard::Key> KeyStateRecorder::pressedKeys() const {
   return pressedKeys;
 }
 
+} /* namespace Detail */
 } /* namespace Input */
 } /* namespace GameCore */
