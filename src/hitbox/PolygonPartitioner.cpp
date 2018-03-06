@@ -2,10 +2,13 @@
 
 #include <tuple>
 
+#include <iostream>
+
 namespace GameCore {
 namespace Hitbox {
 
 std::vector<std::vector<sf::Vector2f>> PolygonPartitioner::make(std::vector<sf::Vector2f> polygon) const {
+  std::cout << "isPolygonConvex: " << this->isPolygonConvex(polygon) << std::endl;
   if (this->isPolygonConvex(polygon)) {
     return { polygon };
   }

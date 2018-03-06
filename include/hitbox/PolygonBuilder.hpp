@@ -1,7 +1,6 @@
 #ifndef GAME_CORE_HITBOX_POLYGON_BUILDER_HPP
 #define GAME_CORE_HITBOX_POLYGON_BUILDER_HPP
 
-#include <tuple>
 #include <vector>
 
 #include <SFML/System/Vector2.hpp>

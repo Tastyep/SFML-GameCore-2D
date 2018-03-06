@@ -35,7 +35,7 @@ class Triangulator {
     return !this->isAngleConvex(a, b, c);
   }
   bool isAngleConvex(const sf::Vector2f& a, const sf::Vector2f& b, const sf::Vector2f& c) const {
-    return (c.y - a.y) * (b.x - a.x) - (c.x - a.x) * (b.y - a.y) < 0;
+    return (c.y - a.y) * (b.x - a.x) - (c.x - a.x) * (b.y - a.y) > 0;
   }
 
  private:

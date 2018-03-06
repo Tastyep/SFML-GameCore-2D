@@ -18,11 +18,24 @@ class ContourBuilder {
   enum class StepDirection { None, N, W, S, E };
 
   const uint8_t alphaThreshold = 10;
-  const std::array<StepDirection, 16> directions{
-    StepDirection::None, StepDirection::N, StepDirection::E, StepDirection::E,    StepDirection::W, StepDirection::N,
-    StepDirection::None, StepDirection::E, StepDirection::S, StepDirection::None, StepDirection::S, StepDirection::S,
-    StepDirection::W,    StepDirection::N, StepDirection::W, StepDirection::None
-  };
+  const std::array<StepDirection, 16> directions{ {
+    StepDirection::None,
+    StepDirection::N,
+    StepDirection::E,
+    StepDirection::E,
+    StepDirection::W,
+    StepDirection::N,
+    StepDirection::None,
+    StepDirection::E,
+    StepDirection::S,
+    StepDirection::None,
+    StepDirection::S,
+    StepDirection::S,
+    StepDirection::W,
+    StepDirection::N,
+    StepDirection::W,
+    StepDirection::None,
+  } };
 
  public:
   std::vector<sf::Vector2i> make(const sf::Sprite& sprite) const;
