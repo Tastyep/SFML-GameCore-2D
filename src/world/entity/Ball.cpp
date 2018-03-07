@@ -22,6 +22,10 @@ void Ball::dispatchContact(Wall& wall, const ContactHandler& handler) {
   handler.handle(*this, wall);
 }
 
+void Ball::dispatchContact(Ball& ball, const ContactHandler& handler) {
+  handler.handle(*this, ball);
+}
+
 void Ball::update() {}
 
 const std::string& Ball::name() const {

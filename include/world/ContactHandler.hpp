@@ -20,6 +20,7 @@ class ContactHandler {
   void handle(Entity::Player& player, Entity::Ball& ball) const;
   void handle(Entity::Player& player, Entity::Wall& wall) const;
   void handle(Entity::Ball& ball, Entity::Wall& wall) const;
+  void handle(Entity::Ball& ballA, Entity::Ball& ballB) const;
 };
 
 } /* namespace World */

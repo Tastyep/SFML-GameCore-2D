@@ -30,5 +30,9 @@ void ContactHandler::handle(Entity::Ball& ball, Entity::Wall& wall) const {
   std::cout << "Ball Wall contact" << std::endl;
 }
 
+void ContactHandler::handle(Entity::Ball& ballA, Entity::Ball& ballB) const {
+  std::cout << "Ball Ball contact" << std::endl;
+}
+
 } /* namespace World */
 } /* namespace GameCore */
