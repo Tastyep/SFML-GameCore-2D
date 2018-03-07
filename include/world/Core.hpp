@@ -12,7 +12,6 @@
 #include "world/Camera.hpp"
 #include "world/ContactListener.hpp"
 #include "world/entity/Factory.hpp"
-#include "world/physic/Polygon.hpp"
 
 namespace GameCore {
 namespace World {

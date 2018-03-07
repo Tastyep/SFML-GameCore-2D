@@ -21,7 +21,6 @@
 #include "world/entity/Ball.hpp"
 #include "world/entity/Player.hpp"
 #include "world/entity/Wall.hpp"
-#include "world/physic/CollisionBody.hpp"
 
 #include "boost/hana/at_key.hpp"
 #include "boost/hana/integral_constant.hpp"
