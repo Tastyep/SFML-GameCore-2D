@@ -9,6 +9,8 @@
 
 #include "world/WorldConstant.hpp"
 
+#include "world/entity/EntityId.hpp"
+
 namespace GameCore {
 namespace World {
 
@@ -50,34 +52,23 @@ bool Core::loadMap(const std::string& filePath) {
       std::cerr << "Error | line: " << y << " | Invalid format." << std::endl;
       return false;
     }
+
     for (size_t x = 0, i = 0; i < lineSize; i += kMapNumberLength, ++x) {
       if (line[i] == ' ' || line[i] == '\t') {
         continue;
       }
       std::string number(line, i, kMapNumberLength);
-      Tile id = static_cast<Tile>(std::stoi(number));
-      std::shared_ptr<Entity::Entity> entity;
+      auto id = static_cast<Entity::Id>(std::stoi(number));
       auto screenPos = sf::Vector2f(static_cast<float>(x), static_cast<float>(y)) * static_cast<float>(kTileSize);
       auto sp = playrho::Length2D(screenPos.x, screenPos.y);
 
-      // clang-format off
-      switch (id) {
-      case Tile::PLAYER:
-        entity = _entityFactory->create<Entity::Player>(sp);
-        break;
-      case Tile::WALL:
-        entity = _entityFactory->create<Entity::Wall>(sp);
-        break;
-      case Tile::BALL:
-        entity = _entityFactory->create<Entity::Ball>(sp);
-        break;
-      default:
+      auto entity = _entityFactory->make(id, sp);
+      if (!entity) {
         std::cerr << "Error | line: " << y << " | c: " << x << " | Invalid tild id: " << enum_cast(id) << "."
                   << std::endl;
         _entities.clear();
         return false;
       }
-      // clang-format on
 
       _entities.push_back(std::move(entity));
     }

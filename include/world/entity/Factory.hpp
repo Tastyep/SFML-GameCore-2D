@@ -19,6 +19,7 @@
 
 #include "world/WorldConstant.hpp"
 #include "world/entity/Ball.hpp"
+#include "world/entity/EntityId.hpp"
 #include "world/entity/Player.hpp"
 #include "world/entity/Wall.hpp"
 
@@ -72,13 +73,18 @@ class Factory {
     , _hitboxManager(std::move(hitboxManager))
     , _actionDispatcher(std::move(actionDispatcher)) {}
 
-  void setWorld(std::shared_ptr<playrho::World> world) {
-    _world = std::move(world);
+  template <typename... Args>
+  std::shared_ptr<Entity> make(Id entityId, playrho::Length2D position, Args... args) const {
+    switch (entityId) {
+    case Id::Wall: return this->make<Wall>(std::move(position), std::forward<Args>(args)...);
+    case Id::Ball: return this->make<Ball>(std::move(position), std::forward<Args>(args)...);
+    case Id::Player: return this->make<Player>(std::move(position), std::forward<Args>(args)...);
+    }
+    return nullptr;
   }
 
-  template <typename Entity, typename... Args>
-  std::shared_ptr<Entity> create(playrho::Length2D position, Args... args) const {
-    return Maker<Entity, Args...>(*this)(std::move(position), std::forward<Args>(args)...);
+  void setWorld(std::shared_ptr<playrho::World> world) {
+    _world = std::move(world);
   }
 
  private:
@@ -103,12 +109,15 @@ class Factory {
 
  private:
   template <typename Entity, typename... Args>
+  std::shared_ptr<Entity> make(playrho::Length2D position, Args... args) const {
+    return Maker<Entity, Args...>(*this)(std::move(position), std::forward<Args>(args)...);
+  }
+
+  template <typename Entity, typename... Args>
   std::shared_ptr<Entity> init(playrho::Length2D position, Args... args) const {
     auto tileId = tile<Entity>();
     auto sprite = _tileManager->tile(tileId);
 
-    std::cout << "BODYDEF: " << position[0] << " " << position[1] << " -> " << (position[0] * kWorldScale) << " "
-              << (position[1] * kWorldScale) << std::endl;
     auto bodyDef = playrho::BodyDef{} //
                      .UseType(bodyType<Entity>())
                      .UseLocation(position * kWorldScale);
@@ -116,23 +125,10 @@ class Factory {
     sprite.setPosition(sf::Vector2f{ position[0], position[1] });
 
     playrho::Body* body(_world->CreateBody(bodyDef));
-    const auto wPosition = body->GetLocation();
-
-    std::cout << "Get new: " << (int)tileId << std::endl;
-    auto polyShapes = _hitboxManager->body(tileId);
+    const auto polyShapes = _hitboxManager->body(tileId);
     for (const auto& shapeConf : polyShapes) {
-      // shapeConf->UseDensity(1);
-      size_t c = shapeConf.GetVertexCount();
-      std::cout << "New: " << c << " vertices" << std::endl;
-      for (size_t i = 0; i < c; ++i) {
-        auto v = shapeConf.GetVertex(i);
-
-        std::cout << "v: " << v[0] << " " << v[1] << std::endl;
-      }
       const auto shape = std::make_shared<playrho::PolygonShape>(shapeConf);
       body->CreateFixture(shape);
-      // body->SetMassData(playrho::MassData{ kBodyCenter, 1, 0 });
-      std::cout << "pos: " << wPosition[0] << " " << wPosition[1] << std::endl;
     }
 
     return std::make_shared<Entity>(std::move(body), sprite, std::forward<Args>(args)...);
