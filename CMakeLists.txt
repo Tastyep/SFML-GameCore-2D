@@ -21,6 +21,10 @@ set(CMAKE_BUILD_TYPE Release)
 
 message(STATUS "[Compiler] Using ${CMAKE_CXX_COMPILER_ID}-${CMAKE_CXX_COMPILER_VERSION}")
 
+# Attempt to find threads library
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+
 # Resolve dependencies
 include(ResolveSFML)
 include(ResolvePlayRho)
@@ -40,6 +44,9 @@ include(Sources)
 
 # Compilation flags
 include(Flags)
+
+# Add required unix libraries
+list(APPEND EXTERNAL_LIBRARIES ${CMAKE_THREAD_LIBS_INIT})
 
 add_executable(${BIN_NAME} ${SOURCE_FILES})
 
