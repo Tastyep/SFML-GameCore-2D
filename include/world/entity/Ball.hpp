@@ -9,7 +9,7 @@ namespace Entity {
 
 class Ball : public Entity {
  public:
-  Ball(playrho::Body* body, const sf::Sprite& sprite);
+  Ball(playrho::Body* body, const sf::Sprite& sprite, const App::Command::Dispatcher& commandDispatcher);
 
   void dispatchContact(const ContactHandler& handler, Entity& entity) override;
   void dispatchContact(Player& player, const ContactHandler& handler) override;

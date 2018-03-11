@@ -11,6 +11,8 @@
 
 #include "PlayRho/Dynamics/Body.hpp"
 
+#include "app/command/CommandDispatcher.hpp"
+
 #include "world/ContactHandler.hpp"
 
 namespace GameCore {
@@ -23,7 +25,7 @@ class Wall;
 
 class Entity : public sf::Drawable {
  public:
-  Entity(playrho::Body* body, const sf::Sprite& sprite);
+  Entity(playrho::Body* body, const sf::Sprite& sprite, const App::Command::Dispatcher& commandDispatcher);
   virtual ~Entity() = default;
 
   virtual void update() = 0;
@@ -45,9 +47,7 @@ class Entity : public sf::Drawable {
  public:
   void move(int direction);
   void rotate(int degrees);
-
- public:
-  const playrho::Body& body() const;
+  playrho::Length2D direction() const;
 
  protected:
   sf::Vector2f _position;
@@ -55,6 +55,7 @@ class Entity : public sf::Drawable {
  public:
   playrho::Body* _body;
   mutable sf::Sprite _sprite;
+  const App::Command::Dispatcher& _commandDispatcher;
 };
 
 } /* namespace Entity */

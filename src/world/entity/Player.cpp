@@ -1,6 +1,11 @@
 #include "world/entity/Player.hpp"
 
+#include "app/command/EntityCommands.hpp"
+
+#include "world/WorldConstant.hpp"
+
 #include "world/entity/Ball.hpp"
+#include "world/entity/EntityId.hpp"
 #include "world/entity/Wall.hpp"
 
 namespace GameCore {
@@ -9,8 +14,8 @@ namespace Entity {
 
 constexpr std::initializer_list<Action> Player::actionTable;
 
-Player::Player(playrho::Body* body, const sf::Sprite& sprite)
-  : Entity(std::move(body), sprite) {
+Player::Player(playrho::Body* body, const sf::Sprite& sprite, const App::Command::Dispatcher& commandDispatcher)
+  : Entity(std::move(body), sprite, commandDispatcher) {
   for (auto action : actionTable) {
     _actions.emplace(action, false);
   }
@@ -40,6 +45,9 @@ void Player::update() {
   if (rotateSide != 0) {
     this->rotate(kRotationAngle * rotateSide);
   }
+  if (_actions[Action::USE]) {
+    this->fire();
+  }
   for (const auto action : actionTable) {
     _actions[action] = false;
   }
@@ -51,6 +59,16 @@ void Player::handle(Action action) {
 
 const std::string& Player::name() const {
   return _name;
+}
+
+// Private functions
+
+void Player::fire() {
+  const auto direction = this->direction();
+  auto position = _body->GetLocation();
+
+  position += direction * (kTileSize * kWorldScale);
+  _commandDispatcher.dispatch(App::Command::AddEntity(Id::Ball, position, direction * 8));
 }
 
 } /* namespace Entity */

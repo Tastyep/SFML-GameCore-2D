@@ -9,6 +9,8 @@
 
 #include "GameConstant.hpp"
 
+#include "app/command/CommandDispatcher.hpp"
+
 #include "world/entity/Factory.hpp"
 
 #include "configParser/detail/BindModule.hpp"
@@ -23,11 +25,15 @@ namespace GameCore {
 Core::Core()
   : _inputManager(std::make_shared<Input::Detail::ActionDispatcher<Action>>())
   , _tileManager(std::make_shared<Ressource::TileManager>())
-  , _hitboxManager(std::make_shared<Hitbox::Manager<Tile>>()) {
-  auto entityFactory =
-    std::make_unique<World::Entity::Factory>(_tileManager, _hitboxManager, _inputManager.dispatcher());
+  , _hitboxManager(std::make_shared<Hitbox::Manager<Tile>>())
+  , _taskManager(std::make_shared<TaskManager>()) {
+  auto commandDispatcher = std::make_shared<App::Command::Dispatcher>(_taskManager);
+  auto entityFactory = std::make_unique<World::Entity::Factory>(
+    _tileManager, _hitboxManager, _inputManager.dispatcher(), *commandDispatcher);
 
-  _world = std::make_unique<World::Core>(std::move(entityFactory), sf::FloatRect(0, 0, 1000, 1000));
+  _world = std::make_shared<World::Core>(std::move(entityFactory), sf::FloatRect(0, 0, 1000, 1000));
+  _serviceFactory = std::make_unique<App::Service::Factory>(std::move(commandDispatcher));
+  _serviceFactory->registerAll(_world);
 }
 
 void Core::run() {

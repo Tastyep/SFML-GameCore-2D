@@ -1,15 +1,13 @@
 #include "world/Core.hpp"
 
-#include "PlayRho/Common/Math.hpp"
-
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <utility>
 
-#include "world/WorldConstant.hpp"
+#include "PlayRho/Dynamics/BodyDef.hpp"
 
-#include "world/entity/EntityId.hpp"
+#include "world/WorldConstant.hpp"
 
 namespace GameCore {
 namespace World {
@@ -24,6 +22,7 @@ Core::Core(std::unique_ptr<Entity::Factory> entityFactory, const sf::FloatRect& 
 }
 
 void Core::update() {
+  std::lock_guard<std::mutex> lock(_entityMutex);
   for (auto& entity : _entities) {
     entity->update();
   }
@@ -32,6 +31,7 @@ void Core::update() {
 }
 
 void Core::draw(sf::RenderTarget& target, sf::RenderStates) const {
+  std::lock_guard<std::mutex> lock(_entityMutex);
   for (const auto& entity : _entities) {
     target.draw(*entity);
   }
@@ -59,19 +59,34 @@ bool Core::loadMap(const std::string& filePath) {
       }
       std::string number(line, i, kMapNumberLength);
       auto id = static_cast<Entity::Id>(std::stoi(number));
-      auto screenPos = sf::Vector2f(static_cast<float>(x), static_cast<float>(y)) * static_cast<float>(kTileSize);
-      auto sp = playrho::Length2D(screenPos.x, screenPos.y);
+      auto pos =
+        playrho::Length2D(static_cast<float>(x), static_cast<float>(y)) * static_cast<float>(kTileSize) * kWorldScale;
+      auto velocity = playrho::LinearVelocity2D{};
 
-      auto entity = _entityFactory->make(id, sp);
-      if (!entity) {
+      if (!this->addEntity(id, pos, velocity)) {
         std::cerr << "Error | line: " << y << " | c: " << x << " | Invalid tild id: " << enum_cast(id) << "."
                   << std::endl;
         _entities.clear();
         return false;
       }
-
-      _entities.push_back(std::move(entity));
     }
+  }
+  return true;
+}
+
+bool Core::addEntity(Entity::Id entityId, playrho::Length2D position, playrho::LinearVelocity2D velocity) {
+  auto bodyDef = playrho::BodyDef{} //
+                   .UseLocation(position)
+                   .UseLinearVelocity(velocity);
+  {
+    std::lock_guard<std::mutex> lock(_entityMutex);
+    auto entity = _entityFactory->make(entityId, bodyDef);
+
+    if (!entity) {
+      return false;
+    }
+
+    _entities.push_back(std::move(entity));
   }
   return true;
 }

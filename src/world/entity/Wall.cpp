@@ -7,8 +7,8 @@ namespace GameCore {
 namespace World {
 namespace Entity {
 
-Wall::Wall(playrho::Body* body, const sf::Sprite& sprite)
-  : Entity(std::move(body), sprite) {}
+Wall::Wall(playrho::Body* body, const sf::Sprite& sprite, const App::Command::Dispatcher& commandDispatcher)
+  : Entity(std::move(body), sprite, commandDispatcher) {}
 
 void Wall::dispatchContact(const ContactHandler& handler, Entity& entity) {
   entity.dispatchContact(*this, handler);

@@ -9,7 +9,7 @@ namespace Entity {
 
 class Wall : public Entity {
  public:
-  Wall(playrho::Body* body, const sf::Sprite& sprite);
+  Wall(playrho::Body* body, const sf::Sprite& sprite, const App::Command::Dispatcher& commandDispatcher);
 
   void dispatchContact(const ContactHandler& handler, Entity& entity) override;
   void dispatchContact(Player& player, const ContactHandler& handler) override;

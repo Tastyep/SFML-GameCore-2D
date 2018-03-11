@@ -14,9 +14,10 @@ namespace GameCore {
 namespace World {
 namespace Entity {
 
-Entity::Entity(playrho::Body* body, const sf::Sprite& sprite)
+Entity::Entity(playrho::Body* body, const sf::Sprite& sprite, const App::Command::Dispatcher& commandDispatcher)
   : _body(body)
-  , _sprite(sprite) {
+  , _sprite(sprite)
+  , _commandDispatcher(commandDispatcher) {
   _body->SetUserData(this);
 }
 
@@ -41,7 +42,7 @@ void Entity::draw(sf::RenderTarget& target, sf::RenderStates) const {
 
 void Entity::move(int direction) {
   const auto bodyAngle = _body->GetAngle();
-  const auto dirVec = playrho::Length2D{ std::cos(bodyAngle * rad), std::sin(bodyAngle * rad) } * direction;
+  const auto dirVec = this->direction() * direction;
 
   SetLinearVelocity(*_body, playrho::LinearVelocity2D{ 7.5f * dirVec[0], 7.5f * dirVec[1] });
 }
@@ -53,8 +54,9 @@ void Entity::rotate(int angle) {
   RotateAboutLocalPoint(*_body, cuAngle, playrho::Length2D{ 0, 0 });
 }
 
-const playrho::Body& Entity::body() const {
-  return *_body;
+playrho::Length2D Entity::direction() const {
+  const auto bodyAngle = _body->GetAngle();
+  return playrho::Length2D{ std::cos(bodyAngle * rad), std::sin(bodyAngle * rad) };
 }
 
 } /* namespace Entity */

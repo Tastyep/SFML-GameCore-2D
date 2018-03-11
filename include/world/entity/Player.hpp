@@ -20,7 +20,7 @@ class Player : public Entity, public Input::ActionHandler<Action> {
   };
 
  public:
-  Player(playrho::Body* body, const sf::Sprite& sprite);
+  Player(playrho::Body* body, const sf::Sprite& sprite, const App::Command::Dispatcher& commandDispatcher);
 
   void dispatchContact(const ContactHandler& handler, Entity& entity) override;
   void dispatchContact(Ball& ball, const ContactHandler& handler) override;
@@ -32,9 +32,10 @@ class Player : public Entity, public Input::ActionHandler<Action> {
 
  private:
   const std::string _name = "Player";
+  float kRotationAngle = 10;
 
  private:
-  float kRotationAngle = 10;
+  void fire();
 
  private:
   std::unordered_map<Action, bool> _actions;

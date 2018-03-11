@@ -2,15 +2,18 @@
 #define GAME_CORE_WORLD_CORE_HPP
 
 #include <memory>
+#include <mutex>
 #include <vector>
 
 #include <SFML/Graphics/Drawable.hpp>
 
+#include "PlayRho/Common/Math.hpp"
 #include "PlayRho/Dynamics/StepConf.hpp"
 #include "PlayRho/Dynamics/World.hpp"
 
 #include "world/Camera.hpp"
 #include "world/ContactListener.hpp"
+#include "world/entity/EntityId.hpp"
 #include "world/entity/Factory.hpp"
 
 namespace GameCore {
@@ -25,6 +28,8 @@ class Core : public sf::Drawable {
 
   bool loadMap(const std::string& file);
 
+  bool addEntity(Entity::Id entityId, playrho::Length2D position, playrho::LinearVelocity2D velocity);
+
  private:
   std::shared_ptr<playrho::World> _world;
   playrho::StepConf _stepConf;
@@ -32,6 +37,7 @@ class Core : public sf::Drawable {
   ContactListener _contactListener;
   Camera _camera;
   std::vector<std::shared_ptr<Entity::Entity>> _entities;
+  mutable std::mutex _entityMutex;
 };
 
 } /* namespace World */
