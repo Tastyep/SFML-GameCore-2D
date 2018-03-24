@@ -39,7 +39,7 @@ namespace Entity {
 
 class Factory {
  public:
-  Factory(std::shared_ptr<Ressource::TileManager> tileManager, std::shared_ptr<Hitbox::Manager<Tile>> hitboxManager,
+  Factory(std::shared_ptr<Ressource::TileManager> tileManager, std::shared_ptr<Hitbox::Manager> hitboxManager,
           std::shared_ptr<Input::Dispatcher<Action>> actionDispatcher,
           const App::Command::Dispatcher& commandDispatcher)
     : _tileManager(std::move(tileManager))
@@ -128,7 +128,7 @@ class Factory {
     sprite.setPosition(sf::Vector2f{ position[0], position[1] } * static_cast<float>(kTileSize));
 
     playrho::Body* body(_world->CreateBody(bodyDef));
-    const auto polyShapes = _hitboxManager->body(tileId);
+    const auto polyShapes = _hitboxManager->body(static_cast<size_t>(tileId));
     for (const auto& shapeConf : polyShapes) {
       const auto shape = std::make_shared<playrho::PolygonShape>(shapeConf);
       body->CreateFixture(shape);
@@ -139,7 +139,7 @@ class Factory {
 
  private:
   std::shared_ptr<Ressource::TileManager> _tileManager;
-  std::shared_ptr<Hitbox::Manager<Tile>> _hitboxManager;
+  std::shared_ptr<Hitbox::Manager> _hitboxManager;
   std::shared_ptr<Input::Dispatcher<Action>> _actionDispatcher;
   const App::Command::Dispatcher& _commandDispatcher;
   std::shared_ptr<playrho::World> _world{ nullptr };

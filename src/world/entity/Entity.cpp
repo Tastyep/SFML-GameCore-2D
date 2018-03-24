@@ -41,7 +41,6 @@ void Entity::draw(sf::RenderTarget& target, sf::RenderStates) const {
 }
 
 void Entity::move(int direction) {
-  const auto bodyAngle = _body->GetAngle();
   const auto dirVec = this->direction() * direction;
 
   SetLinearVelocity(*_body, playrho::LinearVelocity2D{ 7.5f * dirVec[0], 7.5f * dirVec[1] });

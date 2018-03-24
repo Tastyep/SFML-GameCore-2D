@@ -52,7 +52,7 @@ class Core {
   Input::Manager<Action> _inputManager;
   Ressource::Manager<sf::Texture> _textureManager;
   std::shared_ptr<Ressource::TileManager> _tileManager;
-  std::shared_ptr<Hitbox::Manager<Tile>> _hitboxManager;
+  std::shared_ptr<Hitbox::Manager> _hitboxManager;
   std::shared_ptr<TaskManager> _taskManager;
   std::shared_ptr<World::Core> _world;
   std::unique_ptr<App::Service::Factory> _serviceFactory;

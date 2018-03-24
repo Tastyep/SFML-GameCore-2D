@@ -25,7 +25,7 @@ namespace GameCore {
 Core::Core()
   : _inputManager(std::make_shared<Input::Detail::ActionDispatcher<Action>>())
   , _tileManager(std::make_shared<Ressource::TileManager>())
-  , _hitboxManager(std::make_shared<Hitbox::Manager<Tile>>())
+  , _hitboxManager(std::make_shared<Hitbox::Manager>())
   , _taskManager(std::make_shared<TaskManager>()) {
   auto commandDispatcher = std::make_shared<App::Command::Dispatcher>(_taskManager);
   auto entityFactory = std::make_unique<World::Entity::Factory>(
@@ -109,7 +109,7 @@ bool Core::loadRessources() {
   _tileManager->parse(mainTexture, 32);
 
   for (auto id = enum_cast(Tile::PLAYER); id < enum_cast(Tile::LAST); ++id) {
-    _hitboxManager->load(static_cast<Tile>(id), _tileManager->tile(static_cast<Tile>(id)), 80);
+    _hitboxManager->load(static_cast<size_t>(id), _tileManager->tile(static_cast<Tile>(id)), 80);
   }
   return true;
 }
