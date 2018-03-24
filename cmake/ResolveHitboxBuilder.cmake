@@ -1,0 +1,14 @@
+message(STATUS "[HitboxBuilder] Resolving external dependency")
+
+# Define HitboxBuilder version
+set(HITBOX_BUILDER_VERSION develop)
+set(HITBOX_BUILDER_DIR HitboxBuilder)
+
+include(ExternalHitboxBuilder)
+
+list(APPEND EXTERNAL_DEPENDENCIES ${HITBOX_BUILDER_TARGETS})
+list(APPEND EXTERNAL_LIBRARY_DIRS ${HITBOX_BUILDER_LIBRARY_DIRS})
+list(APPEND EXTERNAL_INCLUDE_DIRS ${HITBOX_BUILDER_INCLUDE_DIRS})
+list(APPEND EXTERNAL_LIBRARIES ${HITBOX_BUILDER_LIBRARIES})
+
+message(STATUS "[HitboxBuilder] Using ${HITBOX_BUILDER_VERSION}")

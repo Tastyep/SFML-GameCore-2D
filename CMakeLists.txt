@@ -29,6 +29,7 @@ find_package(Threads REQUIRED)
 include(ResolveSFML)
 include(ResolvePlayRho)
 include(ResolveHana)
+include(ResolveHitboxBuilder)
 
 # Third party include directories
 include_directories(SYSTEM ${EXTERNAL_INCLUDE_DIRS})
