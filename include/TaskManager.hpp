@@ -7,8 +7,7 @@
 #include <mutex>
 #include <queue>
 #include <thread>
-
-#include <iostream>
+#include <utility>
 
 namespace GameCore {
 
@@ -32,8 +31,14 @@ class TaskManager {
     while (!_stopRequested) {
       std::unique_lock<std::mutex> lock(_mutex);
       _cv.wait(lock, [this] { return !_tasks.empty(); });
-      _tasks.front()();
+
+      auto task = std::move(_tasks.front());
       _tasks.pop();
+
+      // Unlock the mutex to avoid deadlocks
+      // Example: A task that adds a new task.
+      lock.unlock();
+      task();
     }
   }
 
