@@ -1,5 +1,5 @@
-#ifndef GAMECORE_WORLD_CONTACT_HANDLER_HPP
-#define GAMECORE_WORLD_CONTACT_HANDLER_HPP
+#ifndef GAMECORE_WORLD_CONTACT_DETAIL_CONTACT_HANDLER_HPP
+#define GAMECORE_WORLD_CONTACT_DETAIL_CONTACT_HANDLER_HPP
 
 namespace GameCore {
 namespace World {
@@ -12,7 +12,10 @@ class Wall;
 
 } /* namespace Entity */
 
-class ContactHandler {
+namespace Contact {
+namespace Detail {
+
+class Handler {
  public:
   void handle(Entity::Entity& a, Entity::Entity& b) const;
   void handle(Entity::Wall& wall, Entity::Ball& ball) const;
@@ -22,6 +25,8 @@ class ContactHandler {
   void handle(Entity::Player& a, Entity::Player& b) const;
 };
 
+} /* namespace Detail */
+} /* namespace Contact */
 } /* namespace World */
 } /* namespace GameCore */
 

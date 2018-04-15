@@ -12,7 +12,6 @@ EntityService::EntityService(std::shared_ptr<World::Core> world)
   : _world(std::move(world)) {}
 
 void EntityService::handle(const Command::AddEntity& cmd) const {
-  std::cout << "handle AddEntity" << std::endl;
   _world->addEntity(cmd.entityId(), cmd.position(), cmd.velocity());
 }
 

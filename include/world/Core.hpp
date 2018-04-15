@@ -12,7 +12,7 @@
 #include "PlayRho/Dynamics/World.hpp"
 
 #include "world/Camera.hpp"
-#include "world/ContactListener.hpp"
+#include "world/contact/ContactListener.hpp"
 #include "world/entity/EntityId.hpp"
 #include "world/entity/Factory.hpp"
 
@@ -34,7 +34,7 @@ class Core : public sf::Drawable {
   std::shared_ptr<playrho::World> _world;
   playrho::StepConf _stepConf;
   std::unique_ptr<Entity::Factory> _entityFactory;
-  ContactListener _contactListener;
+  Contact::Listener _contactListener;
   Camera _camera;
   std::vector<std::shared_ptr<Entity::Entity>> _entities;
   mutable std::mutex _entityMutex;
