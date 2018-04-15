@@ -11,16 +11,8 @@ class Ball : public Entity {
  public:
   Ball(playrho::Body* body, const sf::Sprite& sprite, const App::Command::Dispatcher& commandDispatcher);
 
-  void dispatchContact(const ContactHandler& handler, Entity& entity) override;
-  void dispatchContact(Player& player, const ContactHandler& handler) override;
-  void dispatchContact(Wall& wall, const ContactHandler& handler) override;
-  void dispatchContact(Ball& ball, const ContactHandler& handler) override;
-
   void update() override;
-  const std::string& name() const override;
-
- private:
-  const std::string _name = "Ball";
+  Id id() const override;
 };
 
 } /* namespace Entity */

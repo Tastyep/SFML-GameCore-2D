@@ -1,37 +1,36 @@
 #include "world/ContactHandler.hpp"
 
-#include <cassert>
-
 #include "world/entity/Ball.hpp"
 #include "world/entity/Player.hpp"
 #include "world/entity/Wall.hpp"
 
+#include "util/EnumCast.hpp"
+
 namespace GameCore {
 namespace World {
 
-void ContactHandler::dispatch(Entity::Entity& entityA, Entity::Entity& entityB) const {
-  entityA.dispatchContact(*this, entityB);
+void ContactHandler::handle(Entity::Entity& a, Entity::Entity& b) const {
+  std::cout << "missing contact handler for [" << enum_cast(a.id()) << ", " << enum_cast(b.id()) << "]" << std::endl;
 }
 
-void ContactHandler::handle(Entity::Entity& entityA, Entity::Entity& entityB) const {
-  // Implement a name method for entities & improve the message bellow.
-  assert("missing contact handler");
-}
-
-void ContactHandler::handle(Entity::Player& player, Entity::Ball& ball) const {
-  std::cout << "player ball contact" << std::endl;
-}
-
-void ContactHandler::handle(Entity::Player& player, Entity::Wall& wall) const {
-  std::cout << "player wall contact" << std::endl;
-}
-
-void ContactHandler::handle(Entity::Ball& ball, Entity::Wall& wall) const {
+void ContactHandler::handle(Entity::Wall& wall, Entity::Ball& ball) const {
   std::cout << "Ball Wall contact" << std::endl;
 }
 
-void ContactHandler::handle(Entity::Ball& ballA, Entity::Ball& ballB) const {
+void ContactHandler::handle(Entity::Wall& wall, Entity::Player& player) const {
+  std::cout << "Player Wall contact" << std::endl;
+}
+
+void ContactHandler::handle(Entity::Ball& a, Entity::Ball& b) const {
   std::cout << "Ball Ball contact" << std::endl;
+}
+
+void ContactHandler::handle(Entity::Ball& ball, Entity::Player& player) const {
+  std::cout << "Player Ball contact" << std::endl;
+}
+
+void ContactHandler::handle(Entity::Player& a, Entity::Player& b) const {
+  std::cout << "Player Player contact" << std::endl;
 }
 
 } /* namespace World */

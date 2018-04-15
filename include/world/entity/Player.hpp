@@ -22,16 +22,11 @@ class Player : public Entity, public Input::ActionHandler<Action> {
  public:
   Player(playrho::Body* body, const sf::Sprite& sprite, const App::Command::Dispatcher& commandDispatcher);
 
-  void dispatchContact(const ContactHandler& handler, Entity& entity) override;
-  void dispatchContact(Ball& ball, const ContactHandler& handler) override;
-  void dispatchContact(Wall& wall, const ContactHandler& handler) override;
-
   void update() override;
   void handle(Action action) override;
-  const std::string& name() const override;
+  Id id() const override;
 
  private:
-  const std::string _name = "Player";
   float kRotationAngle = 10;
 
  private:

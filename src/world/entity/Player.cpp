@@ -5,8 +5,6 @@
 #include "world/WorldConstant.hpp"
 
 #include "world/entity/Ball.hpp"
-#include "world/entity/EntityId.hpp"
-#include "world/entity/Wall.hpp"
 
 namespace GameCore {
 namespace World {
@@ -19,18 +17,6 @@ Player::Player(playrho::Body* body, const sf::Sprite& sprite, const App::Command
   for (auto action : actionTable) {
     _actions.emplace(action, false);
   }
-}
-
-void Player::dispatchContact(const ContactHandler& handler, Entity& entity) {
-  entity.dispatchContact(*this, handler);
-}
-
-void Player::dispatchContact(Ball& ball, const ContactHandler& handler) {
-  handler.handle(*this, ball);
-}
-
-void Player::dispatchContact(Wall& wall, const ContactHandler& handler) {
-  handler.handle(*this, wall);
 }
 
 void Player::update() {
@@ -57,8 +43,8 @@ void Player::handle(Action action) {
   _actions[action] = true;
 }
 
-const std::string& Player::name() const {
-  return _name;
+Id Player::id() const {
+  return Id::Player;
 }
 
 // Private functions

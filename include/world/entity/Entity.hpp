@@ -13,7 +13,7 @@
 
 #include "app/command/CommandDispatcher.hpp"
 
-#include "world/ContactHandler.hpp"
+#include "world/entity/EntityId.hpp"
 
 namespace GameCore {
 namespace World {
@@ -29,17 +29,7 @@ class Entity : public sf::Drawable {
   virtual ~Entity() = default;
 
   virtual void update() = 0;
-  // Get the name of the entity, used for debug.
-  virtual const std::string& name() const = 0;
-
-  // Double dispatch the contact information to get the derived entity type.
-  virtual void dispatchContact(const ContactHandler& handler, Entity& entity) = 0;
-  // Defines the default behaviour for unhandled contacts.
-  void dispatchContact(Entity& entity, const ContactHandler& handler);
-
-  virtual void dispatchContact(Player&, const ContactHandler&);
-  virtual void dispatchContact(Wall&, const ContactHandler&);
-  virtual void dispatchContact(Ball&, const ContactHandler&);
+  virtual Id id() const = 0;
 
  public:
   void draw(sf::RenderTarget& target, sf::RenderStates) const override;
