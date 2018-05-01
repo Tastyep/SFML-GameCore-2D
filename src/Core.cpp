@@ -109,7 +109,7 @@ bool Core::loadRessources() {
   _tileManager->parse(mainTexture, 32);
 
   for (auto id = enum_cast(Tile::PLAYER); id < enum_cast(Tile::LAST); ++id) {
-    _hitboxManager->load(static_cast<size_t>(id), _tileManager->tile(static_cast<Tile>(id)), 80);
+    _hitboxManager->load(static_cast<size_t>(id), _tileManager->tile(static_cast<Tile>(id)), 90);
   }
   return true;
 }

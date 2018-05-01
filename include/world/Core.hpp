@@ -14,6 +14,7 @@
 #include "world/Camera.hpp"
 #include "world/contact/ContactListener.hpp"
 #include "world/entity/EntityId.hpp"
+#include "world/entity/EntityManager.hpp"
 #include "world/entity/Factory.hpp"
 
 namespace GameCore {
@@ -36,7 +37,7 @@ class Core : public sf::Drawable {
   std::unique_ptr<Entity::Factory> _entityFactory;
   Contact::Listener _contactListener;
   Camera _camera;
-  std::vector<std::shared_ptr<Entity::Entity>> _entities;
+  Entity::Manager _entityManager;
   mutable std::mutex _entityMutex;
 };
 

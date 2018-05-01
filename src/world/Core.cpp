@@ -23,7 +23,8 @@ Core::Core(std::unique_ptr<Entity::Factory> entityFactory, const sf::FloatRect& 
 
 void Core::update() {
   std::lock_guard<std::mutex> lock(_entityMutex);
-  for (auto& entity : _entities) {
+  const auto& entities = _entityManager.list();
+  for (auto& entity : entities) {
     entity->update();
   }
 
@@ -32,7 +33,8 @@ void Core::update() {
 
 void Core::draw(sf::RenderTarget& target, sf::RenderStates) const {
   std::lock_guard<std::mutex> lock(_entityMutex);
-  for (const auto& entity : _entities) {
+  const auto& entities = _entityManager.list();
+  for (auto& entity : entities) {
     target.draw(*entity);
   }
 }
@@ -66,7 +68,8 @@ bool Core::loadMap(const std::string& filePath) {
       if (!this->addEntity(id, pos, velocity)) {
         std::cerr << "Error | line: " << y << " | c: " << x << " | Invalid tild id: " << enum_cast(id) << "."
                   << std::endl;
-        _entities.clear();
+
+        _entityManager.clear();
         return false;
       }
     }
@@ -75,19 +78,17 @@ bool Core::loadMap(const std::string& filePath) {
 }
 
 bool Core::addEntity(Entity::Id entityId, playrho::Length2D position, playrho::LinearVelocity2D velocity) {
+  std::lock_guard<std::mutex> lock(_entityMutex);
   auto bodyDef = playrho::BodyDef{} //
                    .UseLocation(position)
                    .UseLinearVelocity(velocity);
-  {
-    std::lock_guard<std::mutex> lock(_entityMutex);
-    auto entity = _entityFactory->make(entityId, bodyDef);
+  auto entity = _entityFactory->make(entityId, bodyDef);
 
-    if (!entity) {
-      return false;
-    }
-
-    _entities.push_back(std::move(entity));
+  if (!entity) {
+    return false;
   }
+  _entityManager.add(std::move(entity));
+
   return true;
 }
 
