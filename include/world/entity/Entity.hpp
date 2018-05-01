@@ -37,7 +37,11 @@ class Entity : public sf::Drawable {
  public:
   void move(int direction);
   void rotate(int degrees);
+
+ protected:
   playrho::Length2D direction() const;
+  playrho::Length2D velocityDirection() const;
+  float speed() const;
 
  protected:
   sf::Vector2f _position;

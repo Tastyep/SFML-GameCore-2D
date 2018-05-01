@@ -14,7 +14,7 @@ void Listener::BeginContact(playrho::Contact& contact) {
   // const auto posA = contact.GetFixtureA()->GetBody()->GetLocation();
   // const auto posB = contact.GetFixtureB()->GetBody()->GetLocation();
 
-  resolveContact(entityA, entityB, _contactHandler);
+  resolveContact(entityA, entityB, contact, _contactHandler);
   // _contactHandler.dispatch(entityA, entityB /*, *contact*/);
 }
 

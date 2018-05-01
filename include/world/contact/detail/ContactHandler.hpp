@@ -1,6 +1,8 @@
 #ifndef GAMECORE_WORLD_CONTACT_DETAIL_CONTACT_HANDLER_HPP
 #define GAMECORE_WORLD_CONTACT_DETAIL_CONTACT_HANDLER_HPP
 
+#include "PlayRho/Dynamics/Contacts/Contact.hpp"
+
 namespace GameCore {
 namespace World {
 namespace Entity {
@@ -17,12 +19,12 @@ namespace Detail {
 
 class Handler {
  public:
-  void handle(Entity::Entity& a, Entity::Entity& b) const;
-  void handle(Entity::Wall& wall, Entity::Ball& ball) const;
-  void handle(Entity::Wall& wall, Entity::Player& player) const;
-  void handle(Entity::Ball& a, Entity::Ball& b) const;
-  void handle(Entity::Ball& ball, Entity::Player& player) const;
-  void handle(Entity::Player& a, Entity::Player& b) const;
+  void handle(Entity::Entity& a, Entity::Entity& b, playrho::Contact& contact) const;
+  void handle(Entity::Wall& wall, Entity::Ball& ball, playrho::Contact& contact) const;
+  void handle(Entity::Wall& wall, Entity::Player& player, playrho::Contact& contact) const;
+  void handle(Entity::Ball& a, Entity::Ball& b, playrho::Contact& contact) const;
+  void handle(Entity::Ball& ball, Entity::Player& player, playrho::Contact& contact) const;
+  void handle(Entity::Player& a, Entity::Player& b, playrho::Contact& contact) const;
 };
 
 } /* namespace Detail */

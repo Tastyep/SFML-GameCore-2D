@@ -46,7 +46,20 @@ void Entity::rotate(int angle) {
 
 playrho::Length2D Entity::direction() const {
   const auto bodyAngle = _body->GetAngle();
+
   return playrho::Length2D{ std::cos(bodyAngle * rad), std::sin(bodyAngle * rad) };
+}
+
+playrho::Length2D Entity::velocityDirection() const {
+  const auto v = playrho::GetLinearVelocity(*_body);
+
+  return v / this->speed();
+}
+
+float Entity::speed() const {
+  const auto v = playrho::GetLinearVelocity(*_body);
+
+  return static_cast<float>(std::sqrt(v[0] * v[0] + v[1] * v[1]));
 }
 
 } /* namespace Entity */

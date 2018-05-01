@@ -13,6 +13,15 @@ Id Ball::id() const {
   return Id::Ball;
 }
 
+void Ball::bounce(const playrho::UnitVec2& normal) {
+  const auto dir = this->velocityDirection();
+  const auto speed = this->speed();
+
+  const auto reflect = dir - 2 * playrho::Dot(dir, normal) * normal;
+
+  SetLinearVelocity(*_body, reflect * speed);
+}
+
 } /* namespace Entity */
 } /* namespace World */
 } /* namespace GameCore */
