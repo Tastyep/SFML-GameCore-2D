@@ -1,0 +1,14 @@
+message(STATUS "[TaskManager] Resolving external dependency")
+
+# Define TaskManager version
+set(TASK_MANAGER_VERSION develop)
+set(TASK_MANAGER_DIR TaskManager)
+
+include(ExternalTaskManager)
+
+list(APPEND EXTERNAL_DEPENDENCIES ${TASK_MANAGER_TARGETS})
+list(APPEND EXTERNAL_LIBRARY_DIRS ${TASK_MANAGER_LIBRARY_DIRS})
+list(APPEND EXTERNAL_INCLUDE_DIRS ${TASK_MANAGER_INCLUDE_DIRS})
+list(APPEND EXTERNAL_LIBRARIES ${TASK_MANAGER_LIBRARIES})
+
+message(STATUS "[TaskManager] Using ${TASK_MANAGER_VERSION}")
