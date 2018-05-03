@@ -9,7 +9,8 @@
 #include <unordered_map>
 #include <utility>
 
-#include "TaskManager.hpp"
+#include "TaskManager/Manager.hh"
+
 #include "app/command/CommandHandler.hpp"
 
 namespace GameCore {
@@ -18,7 +19,7 @@ namespace Command {
 
 class Dispatcher {
  public:
-  Dispatcher(std::shared_ptr<TaskManager> taskManager)
+  Dispatcher(std::shared_ptr<Task::Manager> taskManager)
     : _taskManager(std::move(taskManager)) {}
 
   template <typename Command>
@@ -35,7 +36,7 @@ class Dispatcher {
     handler = it != _handlers.end() ? it->second.get() : nullptr;
 
     if (handler) {
-      _taskManager->add([handler, cmd = std::move(cmd)] {
+      _taskManager->launch([handler, cmd = std::move(cmd)] {
         const auto& h = static_cast<const Handler<Command>&>(*handler);
         h.handle(cmd);
       });
@@ -53,8 +54,8 @@ class Dispatcher {
   }
 
  private:
+  std::shared_ptr<Task::Manager> _taskManager;
   HandlerTypeMap _handlers;
-  std::shared_ptr<TaskManager> _taskManager;
 };
 
 } /* namespace Command */

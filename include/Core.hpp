@@ -4,8 +4,9 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
+#include "TaskManager/Manager.hh"
+
 #include "Action.hpp"
-#include "TaskManager.hpp"
 #include "Tile.hpp"
 
 #include "configParser/Parser.hpp"
@@ -22,6 +23,7 @@ namespace GameCore {
 class Core {
  public:
   Core();
+  ~Core();
 
   void run();
 
@@ -53,7 +55,7 @@ class Core {
   Ressource::Manager<sf::Texture> _textureManager;
   std::shared_ptr<Ressource::TileManager> _tileManager;
   std::shared_ptr<Hitbox::Manager> _hitboxManager;
-  std::shared_ptr<TaskManager> _taskManager;
+  std::shared_ptr<Task::Manager> _taskManager;
   std::shared_ptr<World::Core> _world;
   std::unique_ptr<App::Service::Factory> _serviceFactory;
 

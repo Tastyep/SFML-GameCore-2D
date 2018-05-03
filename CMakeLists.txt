@@ -30,6 +30,7 @@ include(ResolveSFML)
 include(ResolvePlayRho)
 include(ResolveHana)
 include(ResolveHitboxBuilder)
+include(ResolveTaskManager)
 
 # Third party include directories
 include_directories(SYSTEM ${EXTERNAL_INCLUDE_DIRS})

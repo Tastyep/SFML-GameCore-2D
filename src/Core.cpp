@@ -7,6 +7,8 @@
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
 
+#include "TaskManager/Module.hh"
+
 #include "GameConstant.hpp"
 
 #include "app/command/CommandDispatcher.hpp"
@@ -26,7 +28,7 @@ Core::Core()
   : _inputManager(std::make_shared<Input::Detail::ActionDispatcher<Action>>())
   , _tileManager(std::make_shared<Ressource::TileManager>())
   , _hitboxManager(std::make_shared<Hitbox::Manager>())
-  , _taskManager(std::make_shared<TaskManager>()) {
+  , _taskManager(Task::Module::makeManager(4)) {
   auto commandDispatcher = std::make_shared<App::Command::Dispatcher>(_taskManager);
   auto entityFactory = std::make_unique<World::Entity::Factory>(
     _tileManager, _hitboxManager, _inputManager.dispatcher(), *commandDispatcher);
@@ -34,6 +36,11 @@ Core::Core()
   _world = std::make_shared<World::Core>(std::move(entityFactory), sf::FloatRect(0, 0, 1000, 1000));
   _serviceFactory = std::make_unique<App::Service::Factory>(std::move(commandDispatcher));
   _serviceFactory->registerAll(_world);
+}
+
+Core::~Core() {
+  auto f = _taskManager->stop();
+  f.get();
 }
 
 void Core::run() {
