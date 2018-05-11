@@ -7,7 +7,6 @@
 
 #include "GameConstant.hpp"
 
-namespace GameCore {
 namespace World {
 
 const float kPixelScale = static_cast<float>(kTileSize) / 2.f;
@@ -24,6 +23,5 @@ const float rad = pi / 180.f;
 const float deg = 180.f / pi;
 
 } /* namespace World */
-} /* namespace GameCore */
 
 #endif

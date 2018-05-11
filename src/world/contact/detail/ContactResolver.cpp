@@ -1,6 +1,5 @@
 #include "world/contact/detail/ContactResolver.hpp"
 
-namespace GameCore {
 namespace World {
 namespace Contact {
 namespace Detail {
@@ -16,4 +15,3 @@ void resolveContact(Entity::Entity* a, Entity::Entity* b, playrho::Contact& cont
 } /* namespace Detail */
 } /* namespace Contact */
 } /* namespace World */
-} /* namespace GameCore */

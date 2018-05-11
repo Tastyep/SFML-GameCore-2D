@@ -6,8 +6,6 @@
 
 #include <SFML/System/Vector2.hpp>
 
-namespace GameCore {
-
 const std::string kAssetDir = "../assets/";
 const std::string kMapDir = "../maps/";
 const std::string kConfigDir = "../config/";
@@ -19,7 +17,5 @@ const float kTimeStep = 1.0f / static_cast<float>(kFrameRate);
 
 const int kTileSize = 32;
 const sf::Vector2f kSpriteOrigin{ kTileSize / 2, kTileSize / 2 };
-
-} /* namespace GameCore */
 
 #endif

@@ -10,7 +10,6 @@
 
 #include "Util.hpp"
 
-namespace GameCore {
 namespace World {
 namespace Entity {
 
@@ -64,4 +63,3 @@ float Entity::speed() const {
 
 } /* namespace Entity */
 } /* namespace World */
-} /* namespace GameCore */

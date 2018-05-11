@@ -6,7 +6,6 @@
 
 namespace mpl = boost::mpl;
 
-namespace GameCore {
 namespace App {
 namespace Command {
 
@@ -28,6 +27,5 @@ using HandlerFold = typename mpl::inherit_linearly<CommandTypes, mpl::inherit<mp
 
 } /* namespace Command */
 } /* namespace App */
-} /* namespace GameCore */
 
 #endif

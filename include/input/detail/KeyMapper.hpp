@@ -6,7 +6,6 @@
 
 #include <SFML/Window/Keyboard.hpp>
 
-namespace GameCore {
 namespace Input {
 namespace Detail {
 
@@ -34,6 +33,5 @@ class KeyMapper {
 
 } /* namespace Detail */
 } /* namespace Input */
-} /* namespace GameCore */
 
 #endif

@@ -7,7 +7,6 @@
 #include <utility>
 #include <vector>
 
-namespace GameCore {
 namespace ConfigParser {
 
 void Parser::registerModule(std::shared_ptr<ParsingModule> module) {
@@ -65,4 +64,3 @@ bool Parser::parse(const std::string& filePath) {
 }
 
 } /* namespace ConfigParser */
-} /* namespace GameCore */

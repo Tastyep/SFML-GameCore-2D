@@ -8,7 +8,6 @@
 
 #include "app/command/CommandHandler.hpp"
 
-namespace GameCore {
 namespace App {
 namespace Service {
 namespace Detail {
@@ -40,6 +39,5 @@ std::shared_ptr<ServiceType> makeRegistered(Dispatcher& dispatcher, Args&&... ar
 } /* namespace Detail */
 } /* namespace Service */
 } /* namespace App */
-} /* namespace GameCore */
 
 #endif

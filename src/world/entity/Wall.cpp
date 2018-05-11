@@ -1,6 +1,5 @@
 #include "world/entity/Wall.hpp"
 
-namespace GameCore {
 namespace World {
 namespace Entity {
 
@@ -15,4 +14,3 @@ Id Wall::id() const {
 
 } /* namespace Entity */
 } /* namespace World */
-} /* namespace GameCore */

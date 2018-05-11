@@ -4,7 +4,7 @@
 
 int main() {
   Task::Module::init(4);
-  GameCore::Core game;
+  Core game;
 
   game.run();
   return 0;

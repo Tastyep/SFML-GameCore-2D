@@ -2,7 +2,6 @@
 
 #include <SFML/Graphics/Texture.hpp>
 
-namespace GameCore {
 namespace Ressource {
 
 size_t TileManager::parse(const sf::Texture& texture, size_t tileSize) {
@@ -25,4 +24,3 @@ const std::vector<sf::Sprite>& TileManager::tiles() const {
 }
 
 } /* namespace Ressource */
-} /* namespace GameCore */

@@ -7,7 +7,6 @@
 
 #include "world/Core.hpp"
 
-namespace GameCore {
 namespace App {
 namespace Service {
 
@@ -24,4 +23,3 @@ void Factory::makeEntityService(std::shared_ptr<World::Core> world) const {
 
 } /* namespace Service */
 } /* namespace App */
-} /* namespace GameCore */

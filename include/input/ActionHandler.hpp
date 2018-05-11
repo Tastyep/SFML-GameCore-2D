@@ -1,7 +1,6 @@
 #ifndef GAME_CORE_INPUT_ACTION_HANDLER_HPP
 #define GAME_CORE_INPUT_ACTION_HANDLER_HPP
 
-namespace GameCore {
 namespace Input {
 
 template <typename Action>
@@ -11,6 +10,5 @@ class ActionHandler {
 };
 
 } /* namespace Input */
-} /* namespace GameCore */
 
 #endif

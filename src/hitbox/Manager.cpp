@@ -1,6 +1,5 @@
 #include "hitbox/Manager.hpp"
 
-namespace GameCore {
 namespace Hitbox {
 
 void Manager::load(size_t id, const sf::Sprite& sprite, size_t accuracy) {
@@ -47,4 +46,3 @@ void Manager::translatePolygons(std::vector<Polygon>& polygons, const sf::Vector
 }
 
 } /* namespace Hitbox */
-} /* namespace GameCore */

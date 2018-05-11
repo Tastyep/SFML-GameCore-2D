@@ -2,7 +2,6 @@
 
 #include <utility>
 
-namespace GameCore {
 namespace World {
 namespace Entity {
 
@@ -20,4 +19,3 @@ void Manager::clear() {
 
 } /* namespace Entity */
 } /* namespace World */
-} /* namespace GameCore */

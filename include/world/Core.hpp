@@ -17,7 +17,6 @@
 #include "world/entity/EntityManager.hpp"
 #include "world/entity/Factory.hpp"
 
-namespace GameCore {
 namespace World {
 
 class Core : public sf::Drawable {
@@ -42,6 +41,5 @@ class Core : public sf::Drawable {
 };
 
 } /* namespace World */
-} /* namespace GameCore */
 
 #endif

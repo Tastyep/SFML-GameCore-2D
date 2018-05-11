@@ -19,7 +19,6 @@
 
 namespace hana = boost::hana;
 
-namespace GameCore {
 namespace World {
 namespace Entity {
 
@@ -43,6 +42,5 @@ using Type = typename std::decay<decltype(hana::second(entityIdentifierMap[hana:
 
 } /* namespace Entity */
 } /* namespace World */
-} /* namespace GameCore */
 
 #endif

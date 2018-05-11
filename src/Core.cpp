@@ -22,8 +22,6 @@
 
 #include "util/EnumCast.hpp"
 
-namespace GameCore {
-
 Core::Core()
   : _inputManager(std::make_shared<Input::Detail::ActionDispatcher<Action>>())
   , _tileManager(std::make_shared<Ressource::TileManager>())
@@ -232,5 +230,3 @@ void Core::registerParserModules() {
 
   _configParser.registerModule(std::move(bindModule));
 }
-
-} /* namespace GameCore */

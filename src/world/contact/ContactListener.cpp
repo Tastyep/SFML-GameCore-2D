@@ -4,7 +4,6 @@
 
 #include "world/contact/detail/ContactResolver.hpp"
 
-namespace GameCore {
 namespace World {
 namespace Contact {
 
@@ -27,4 +26,3 @@ void Listener::PostSolve(playrho::Contact& contact, const playrho::ContactImpuls
 
 } /* namespace Contact */
 } /* namespace World */
-} /* namespace GameCore */

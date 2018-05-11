@@ -7,7 +7,6 @@
 
 #include "input/ActionHandler.hpp"
 
-namespace GameCore {
 namespace Input {
 
 template <typename Action>
@@ -24,6 +23,5 @@ class Dispatcher {
 };
 
 } /* namespace Input */
-} /* namespace GameCore */
 
 #endif

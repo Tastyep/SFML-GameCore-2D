@@ -3,7 +3,6 @@
 
 #include <cmath>
 
-namespace GameCore {
 namespace Util {
 
 constexpr auto toRad(float angle) {
@@ -15,6 +14,5 @@ constexpr auto toDeg(float angle) {
 }
 
 } /* namespace Util */
-} /* namespace GameCore */
 
 #endif

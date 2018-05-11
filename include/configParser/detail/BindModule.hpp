@@ -6,7 +6,6 @@
 #include <unordered_map>
 #include <utility>
 
-namespace GameCore {
 namespace ConfigParser {
 namespace Detail {
 
@@ -72,6 +71,5 @@ class BindModule : public ParsingModule, public std::enable_shared_from_this<Bin
 
 } /* namespace Detail */
 } /* namespace ConfigParser */
-} /* namespace GameCore */
 
 #endif

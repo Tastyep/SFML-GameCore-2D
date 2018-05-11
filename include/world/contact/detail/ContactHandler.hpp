@@ -3,7 +3,6 @@
 
 #include "PlayRho/Dynamics/Contacts/Contact.hpp"
 
-namespace GameCore {
 namespace World {
 namespace Entity {
 
@@ -30,6 +29,5 @@ class Handler {
 } /* namespace Detail */
 } /* namespace Contact */
 } /* namespace World */
-} /* namespace GameCore */
 
 #endif

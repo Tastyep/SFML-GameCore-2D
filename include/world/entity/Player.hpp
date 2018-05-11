@@ -9,7 +9,6 @@
 #include "Action.hpp"
 #include "input/ActionHandler.hpp"
 
-namespace GameCore {
 namespace World {
 namespace Entity {
 
@@ -38,6 +37,5 @@ class Player : public Entity, public Input::ActionHandler<Action> {
 
 } /* namespace Entity */
 } /* namespace World */
-} /* namespace GameCore */
 
 #endif

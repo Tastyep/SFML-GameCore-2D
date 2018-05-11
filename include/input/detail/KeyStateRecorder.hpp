@@ -5,7 +5,6 @@
 
 #include <SFML/Window/Keyboard.hpp>
 
-namespace GameCore {
 namespace Input {
 namespace Detail {
 
@@ -32,6 +31,5 @@ class KeyStateRecorder {
 
 } /* namespace Detail */
 } /* namespace Input */
-} /* namespace GameCore */
 
 #endif

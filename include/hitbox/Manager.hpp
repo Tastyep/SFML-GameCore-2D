@@ -12,7 +12,6 @@
 #include "PlayRho/Collision/Shapes/PolygonShape.hpp"
 #include "PlayRho/Common/VertexSet.hpp"
 
-namespace GameCore {
 namespace Hitbox {
 
 class Manager {
@@ -33,6 +32,5 @@ class Manager {
 };
 
 } /* namespace Hitbox */
-} /* namespace GameCore */
 
 #endif

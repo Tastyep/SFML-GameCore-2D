@@ -8,7 +8,6 @@
 #include "input/detail/KeyMapper.hpp"
 #include "input/detail/KeyStateRecorder.hpp"
 
-namespace GameCore {
 namespace Input {
 
 template <typename Action>
@@ -52,6 +51,5 @@ class Manager {
   std::shared_ptr<Dispatcher<Action>> _dispatcher;
 };
 } /* namespace Input */
-} /* namespace GameCore */
 
 #endif

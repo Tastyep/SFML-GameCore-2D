@@ -6,7 +6,6 @@
 
 #include "world/entity/Entity.hpp"
 
-namespace GameCore {
 namespace World {
 namespace Entity {
 
@@ -22,6 +21,5 @@ class Manager {
 
 } /* namespace Entity */
 } /* namespace World */
-} /* namespace GameCore */
 
 #endif

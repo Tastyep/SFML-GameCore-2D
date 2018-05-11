@@ -6,7 +6,6 @@
 
 #include <SFML/Graphics/Sprite.hpp>
 
-namespace GameCore {
 namespace Ressource {
 
 class TileManager {
@@ -24,6 +23,5 @@ class TileManager {
 };
 
 } /* namespace Ressource */
-} /* namespace GameCore */
 
 #endif

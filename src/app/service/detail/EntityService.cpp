@@ -3,7 +3,6 @@
 #include <iostream>
 #include <utility>
 
-namespace GameCore {
 namespace App {
 namespace Service {
 namespace Detail {
@@ -18,4 +17,3 @@ void EntityService::handle(const Command::AddEntity& cmd) const {
 } /* namespace Detail */
 } /* namespace Service */
 } /* namespace App */
-} /* namespace GameCore */

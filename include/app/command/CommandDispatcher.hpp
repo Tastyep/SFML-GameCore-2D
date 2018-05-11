@@ -13,7 +13,6 @@
 
 #include "app/command/CommandHandler.hpp"
 
-namespace GameCore {
 namespace App {
 namespace Command {
 
@@ -60,6 +59,5 @@ class Dispatcher {
 
 } /* namespace Command */
 } /* namespace App */
-} /* namespace GameCore */
 
 #endif

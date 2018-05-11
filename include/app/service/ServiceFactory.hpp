@@ -5,7 +5,6 @@
 
 #include "app/command/CommandDispatcher.hpp"
 
-namespace GameCore {
 namespace World {
 
 class Core;
@@ -34,6 +33,5 @@ class Factory {
 
 } /* namespace Service */
 } /* namespace App */
-} /* namespace GameCore */
 
 #endif

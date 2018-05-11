@@ -13,7 +13,6 @@
 
 #include <spdlog/fmt/ostr.h>
 
-namespace GameCore {
 namespace Ressource {
 
 template <typename Ressource>
@@ -49,6 +48,5 @@ class Manager {
 };
 
 } /* namespace Ressource */
-} /* namespace GameCore */
 
 #endif

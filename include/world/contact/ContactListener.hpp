@@ -6,7 +6,6 @@
 
 #include "world/contact/detail/ContactHandler.hpp"
 
-namespace GameCore {
 namespace World {
 namespace Contact {
 
@@ -25,6 +24,5 @@ class Listener : public playrho::ContactListener {
 
 } /* namespace Contact */
 } /* namespace World */
-} /* namespace GameCore */
 
 #endif

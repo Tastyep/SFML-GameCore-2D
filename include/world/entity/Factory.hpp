@@ -33,7 +33,6 @@
 
 namespace hana = boost::hana;
 
-namespace GameCore {
 namespace World {
 namespace Entity {
 
@@ -147,6 +146,5 @@ class Factory {
 
 } /* namespace Entity */
 } /* namespace World */
-} /* namespace GameCore */
 
 #endif

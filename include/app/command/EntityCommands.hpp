@@ -8,7 +8,6 @@
 
 #include "world/entity/EntityId.hpp"
 
-namespace GameCore {
 namespace App {
 namespace Command {
 
@@ -41,6 +40,5 @@ using EntityCommands = boost::mpl::vector1<AddEntity>;
 
 } /* namespace Command */
 } /* namespace App */
-} /* namespace GameCore */
 
 #endif

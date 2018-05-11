@@ -2,7 +2,6 @@
 
 #include <algorithm>
 
-namespace GameCore {
 namespace Input {
 namespace Detail {
 
@@ -43,4 +42,3 @@ std::vector<sf::Keyboard::Key> KeyStateRecorder::pressedKeys() const {
 
 } /* namespace Detail */
 } /* namespace Input */
-} /* namespace GameCore */

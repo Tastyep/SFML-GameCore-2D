@@ -8,7 +8,6 @@
 
 #include "world/Core.hpp"
 
-namespace GameCore {
 namespace App {
 namespace Service {
 namespace Detail {
@@ -26,6 +25,5 @@ class EntityService final : public ServiceImpl<Command::EntityCommands> {
 } /* namespace Detail */
 } /* namespace Service */
 } /* namespace App */
-} /* namespace GameCore */
 
 #endif

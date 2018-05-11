@@ -5,7 +5,6 @@
 
 #include "input/Dispatcher.hpp"
 
-namespace GameCore {
 namespace Input {
 namespace Detail {
 
@@ -38,6 +37,5 @@ class ActionDispatcher : public Input::Dispatcher<Action> {
 
 } /* namespace Detail */
 } /* namespace Input */
-} /* namespace GameCore */
 
 #endif

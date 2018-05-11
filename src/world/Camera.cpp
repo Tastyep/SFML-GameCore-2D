@@ -1,6 +1,5 @@
 #include "world/Camera.hpp"
 
-namespace GameCore {
 namespace World {
 
 Camera::Camera(const sf::FloatRect& rect) {
@@ -30,4 +29,3 @@ void Camera::move(const sf::Vector2f& distance) {
 }
 
 } /* namespace World */
-} /* namespace GameCore */

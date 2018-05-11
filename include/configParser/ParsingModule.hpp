@@ -7,7 +7,6 @@
 
 #include "configParser/ParsingModule.hpp"
 
-namespace GameCore {
 namespace ConfigParser {
 
 class ParsingModule {
@@ -21,6 +20,5 @@ class ParsingModule {
 };
 
 } /* namespace ConfigParser */
-} /* namespace GameCore */
 
 #endif

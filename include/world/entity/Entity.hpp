@@ -15,7 +15,6 @@
 
 #include "world/entity/EntityId.hpp"
 
-namespace GameCore {
 namespace World {
 namespace Entity {
 
@@ -54,6 +53,5 @@ class Entity : public sf::Drawable {
 
 } /* namespace Entity */
 } /* namespace World */
-} /* namespace GameCore */
 
 #endif

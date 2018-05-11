@@ -6,7 +6,6 @@
 
 #include "util/EnumCast.hpp"
 
-namespace GameCore {
 namespace World {
 namespace Contact {
 namespace Detail {
@@ -33,4 +32,3 @@ void Handler::handle(Entity::Player& a, Entity::Player& b, playrho::Contact& con
 } /* namespace Detail */
 } /* namespace Contact */
 } /* namespace World */
-} /* namespace GameCore */

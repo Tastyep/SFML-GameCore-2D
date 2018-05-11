@@ -18,8 +18,6 @@
 
 #include "app/service/ServiceFactory.hpp"
 
-namespace GameCore {
-
 class Core {
  public:
   Core();
@@ -61,7 +59,5 @@ class Core {
 
   sf::RenderWindow _window;
 };
-
-} /* namespace GameCore */
 
 #endif

@@ -4,7 +4,6 @@
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Vector2.hpp>
 
-namespace GameCore {
 namespace World {
 
 class Camera {
@@ -23,6 +22,5 @@ class Camera {
 };
 
 } /* namespace World */
-} /* namespace GameCore */
 
 #endif

@@ -9,7 +9,6 @@
 
 #include "world/WorldConstant.hpp"
 
-namespace GameCore {
 namespace World {
 
 Core::Core(std::unique_ptr<Entity::Factory> entityFactory, const sf::FloatRect& viewRect)
@@ -93,4 +92,3 @@ bool Core::addEntity(Entity::Id entityId, playrho::Length2D position, playrho::L
 }
 
 } /* namespace World */
-} /* namespace GameCore */

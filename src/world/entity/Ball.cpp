@@ -1,6 +1,5 @@
 #include "world/entity/Ball.hpp"
 
-namespace GameCore {
 namespace World {
 namespace Entity {
 
@@ -24,4 +23,3 @@ void Ball::bounce(const playrho::UnitVec2& normal) {
 
 } /* namespace Entity */
 } /* namespace World */
-} /* namespace GameCore */
