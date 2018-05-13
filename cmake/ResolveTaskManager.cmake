@@ -1,7 +1,7 @@
 message(STATUS "[TaskManager] Resolving external dependency")
 
 # Define TaskManager version
-set(TASK_MANAGER_VERSION develop)
+set(TASK_MANAGER_VERSION 1.0.0)
 set(TASK_MANAGER_DIR TaskManager)
 
 include(ExternalTaskManager)
