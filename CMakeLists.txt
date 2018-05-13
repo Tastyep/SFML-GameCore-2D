@@ -17,8 +17,10 @@ set(CMAKE_INCLUDE_DIRECTORIES_PROJECT_BEFORE ON)
 set(PREDEFINED_TARGETS_FOLDER "CMake")
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/${MODULE_DIR})
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_BUILD_TYPE ${BUILD_TYPE})
 
+
+message(STATUS "Building ${BUILD_TYPE} ${PROJECT_NAME}\n----------------------------")
 message(STATUS "[Compiler] Using ${CMAKE_CXX_COMPILER_ID}-${CMAKE_CXX_COMPILER_VERSION}")
 
 # Attempt to find threads library
@@ -47,8 +49,10 @@ include(Sources)
 # Compilation flags
 include(Flags)
 
-# Add required unix libraries
-list(APPEND EXTERNAL_LIBRARIES ${CMAKE_THREAD_LIBS_INIT})
+if(GAME_CORE_ENABLE_CLANGTIDY AND CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  include(EnableClangTidy)
+  enable_clangtidy(SOURCES "${SOURCE_FILES}")
+endif()
 
 add_executable(${BIN_NAME} ${SOURCE_FILES})
 
