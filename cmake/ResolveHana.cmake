@@ -1,5 +1,6 @@
 message(STATUS "[Hana] Resolving external dependency")
 
+set(HANA_VERSION v1.3.0)
 set(HANA_DIR Hana)
 
 include(ExternalHana)
