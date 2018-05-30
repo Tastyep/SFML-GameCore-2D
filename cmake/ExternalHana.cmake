@@ -7,8 +7,6 @@ set(HANA_TARGET hana)
 set(HANA_ROOT_DIR ${PROJECT_SOURCE_DIR}/${LIB_DIR}/${HANA_DIR})
 set(HANA_SOURCE_DIR ${HANA_ROOT_DIR}/src/${HANA_TARGET}/Hana)
 
-message(STATUS "CMAKE_CXX_COMPILER_VERSION: ${CMAKE_CXX_COMPILER_VERSION}")
-
 # Configure external project
 ExternalProject_Add(
   ${HANA_TARGET}

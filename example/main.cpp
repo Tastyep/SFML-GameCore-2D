@@ -1,4 +1,4 @@
-#include "TaskManager/Module.hh"
+#include "TaskManager/Module.hpp"
 
 #include "Core.hpp"
 

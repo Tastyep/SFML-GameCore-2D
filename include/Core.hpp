@@ -4,7 +4,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
-#include "TaskManager/Manager.hh"
+#include "TaskManager/Manager.hpp"
 
 #include "Action.hpp"
 #include "Tile.hpp"

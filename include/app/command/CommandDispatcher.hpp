@@ -9,7 +9,7 @@
 #include <unordered_map>
 #include <utility>
 
-#include "TaskManager/Manager.hh"
+#include "TaskManager/Manager.hpp"
 
 #include "app/command/CommandHandler.hpp"
 
@@ -35,7 +35,7 @@ class Dispatcher {
     handler = it != _handlers.end() ? it->second.get() : nullptr;
 
     if (handler) {
-      _taskManager->launch([handler, cmd = std::move(cmd)] {
+      _taskManager->push([handler, cmd = std::move(cmd)] {
         const auto& h = static_cast<const Handler<Command>&>(*handler);
         h.handle(cmd);
       });

@@ -38,7 +38,6 @@ set_target_properties(${TASK_MANAGER_TARGET} PROPERTIES LABELS TaskManager FOLDE
 # Define dependency directories, mimic the needed behavior of find_package
 # NOTE: Variable names must respect the conventions of a cmake find-module
 set(TASK_MANAGER_INCLUDE_DIRS "${TASK_MANAGER_ROOT_DIR}/include")
-list(APPEND TASK_MANAGER_INCLUDE_DIRS "${TASK_MANAGER_ROOT_DIR}/include/TaskManager")
 set(TASK_MANAGER_LIBRARY_DIRS ${TASK_MANAGER_ROOT_DIR}/lib)
 set(TASK_MANAGER_LIBRARIES ${TASK_MANAGER_LIBRARY_DIRS}/libTaskManager.a)
 set(TASK_MANAGER_TARGETS ${TASK_MANAGER_TARGET})
