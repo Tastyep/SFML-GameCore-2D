@@ -1,7 +1,7 @@
 message(STATUS "[HitboxBuilder] Resolving external dependency")
 
 # Define HitboxBuilder version
-set(HITBOX_BUILDER_VERSION develop)
+set(HITBOX_BUILDER_VERSION 1.0.0)
 set(HITBOX_BUILDER_DIR HitboxBuilder)
 
 include(ExternalHitboxBuilder)

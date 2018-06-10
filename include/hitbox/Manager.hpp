@@ -6,7 +6,7 @@
 
 #include "world/WorldConstant.hpp"
 
-#include "HitboxBuilder/Manager.hpp"
+#include "HitboxBuilder/Module.hpp"
 #include "HitboxBuilder/Types.hpp"
 
 #include "PlayRho/Collision/Shapes/PolygonShape.hpp"
@@ -19,6 +19,9 @@ class Manager {
   using Polygon = ::HitboxBuilder::Polygon;
 
  public:
+  Manager();
+
+ public:
   void load(size_t id, const sf::Sprite& sprite, size_t accuracy);
   const std::vector<playrho::PolygonShape>& body(size_t id) const;
 
@@ -27,7 +30,6 @@ class Manager {
   void translatePolygons(std::vector<Polygon>& polygons, const sf::Vector2i& center) const;
 
  private:
-  HitboxBuilder::Manager _manager;
   std::unordered_map<size_t, std::vector<playrho::PolygonShape>> _hitboxes;
 };
 

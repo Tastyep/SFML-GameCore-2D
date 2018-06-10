@@ -2,9 +2,12 @@
 
 namespace Hitbox {
 
+Manager::Manager() {
+  HitboxBuilder::init();
+}
+
 void Manager::load(size_t id, const sf::Sprite& sprite, size_t accuracy) {
-  _manager.load(id, sprite, accuracy, true);
-  auto polygons = _manager.get(id).body();
+  auto polygons = HitboxBuilder::make(sprite, accuracy, true).body();
 
   this->translatePolygons(polygons, static_cast<sf::Vector2i>(kSpriteOrigin));
   this->makeBody(id, polygons);
